@@ -24,14 +24,31 @@
 html,body{min-height:100%;background:var(--bg);color:var(--fg);font-family:var(--serif);-webkit-font-smoothing:antialiased}
 
 /* GRAIN */
-.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.036;
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.042;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size:160px}
+
+/* TACTICAL GRID */
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:1;
+  background-image:
+    linear-gradient(rgba(240,236,228,0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,236,228,0.028) 1px, transparent 1px);
+  background-size:48px 48px}
+
+/* CORNER MARKS */
+.corners{position:fixed;inset:0;pointer-events:none;z-index:0}
+.corners::before,.corners::after{content:'';position:fixed;width:22px;height:22px;border-color:rgba(200,184,154,0.22);border-style:solid}
+.corners::before{top:1.8rem;left:1.8rem;border-width:1px 0 0 1px}
+.corners::after{bottom:1.8rem;right:1.8rem;border-width:0 1px 1px 0}
+.corners2{position:fixed;inset:0;pointer-events:none;z-index:0}
+.corners2::before,.corners2::after{content:'';position:fixed;width:22px;height:22px;border-color:rgba(200,184,154,0.22);border-style:solid}
+.corners2::before{top:1.8rem;right:1.8rem;border-width:1px 1px 0 0}
+.corners2::after{bottom:1.8rem;left:1.8rem;border-width:0 0 1px 1px}
 
 /* SHIELD WATERMARK */
 .watermark{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
   width:min(62vw,520px);height:min(62vw,520px);
-  pointer-events:none;z-index:0;opacity:0.028}
+  pointer-events:none;z-index:0;opacity:0.055}
 
 /* LAYOUT */
 .wrap{max-width:640px;margin:0 auto;padding:clamp(5rem,12vw,9rem) clamp(2rem,6vw,3rem) 0;position:relative;z-index:1}
@@ -155,7 +172,14 @@ textarea{resize:vertical;min-height:110px;line-height:1.62}
 .dossier-footer{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(240,236,228,0.07)}
 .dossier-stamp{font-family:var(--mono);font-size:0.50rem;font-weight:300;letter-spacing:0.18em;color:rgba(240,236,228,0.20);text-transform:uppercase;line-height:1.8}
 
-/* ANIMATIONS */
+/* SCAN LINE */
+@keyframes scan{0%{top:-8%}100%{top:108%}}
+.scanline{position:fixed;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,184,154,0.06),transparent);pointer-events:none;z-index:0;animation:scan 12s linear infinite}
+
+/* COORD LABELS */
+.coord{position:fixed;font-family:var(--mono);font-size:0.48rem;font-weight:300;letter-spacing:0.14em;color:rgba(200,184,154,0.18);pointer-events:none;z-index:0}
+.coord-tl{top:1.6rem;left:4.2rem}
+.coord-br{bottom:1.6rem;right:4.2rem}
 @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 
@@ -171,6 +195,12 @@ textarea{resize:vertical;min-height:110px;line-height:1.62}
 </head>
 <body>
 <div class="grain"></div>
+<div class="grid-bg"></div>
+<div class="corners"></div>
+<div class="corners2"></div>
+<div class="scanline"></div>
+<div class="coord coord-tl">23.5505° S &nbsp;46.6333° W</div>
+<div class="coord coord-br">ARKKA · SYS_ONLINE · 2026</div>
 
 <!-- SHIELD WATERMARK -->
 <svg class="watermark" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
