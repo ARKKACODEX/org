@@ -3,249 +3,392 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARKKA</title>
+<title>ARKKA — CODEX AI</title>
 <meta name="description" content="Secure, reliable AI is within reach.">
-<meta property="og:title" content="ARKKA">
+<meta property="og:title" content="ARKKA — CODEX AI">
 <meta property="og:description" content="Secure, reliable AI is within reach.">
 <meta property="og:url" content="https://arkka.org">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#070707;--fg:#f0ece4;
-  --muted:rgba(240,236,228,0.30);--mid:rgba(240,236,228,0.55);
-  --accent:#c8b89a;--border:rgba(240,236,228,0.09);
+  --bg:#060606;--fg:#f0ece4;
+  --muted:rgba(240,236,228,0.28);--mid:rgba(240,236,228,0.54);
+  --accent:#c8b89a;--border:rgba(240,236,228,0.08);
   --ibg:rgba(240,236,228,0.03);
   --serif:'Cormorant Garamond',Georgia,serif;
   --mono:'IBM Plex Mono',monospace;
 }
 html,body{min-height:100%;background:var(--bg);color:var(--fg);font-family:var(--serif);-webkit-font-smoothing:antialiased}
 
-/* GRAIN */
-.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.042;
+/* ATMOSPHERE */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.045;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:160px}
-
-/* TACTICAL GRID */
-.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:1;
+  background-size:180px}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 50% 38%, transparent 38%, rgba(4,4,4,0.75) 100%)}
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:
-    linear-gradient(rgba(240,236,228,0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(240,236,228,0.028) 1px, transparent 1px);
-  background-size:48px 48px}
-
-/* CORNER MARKS */
-.corners{position:fixed;inset:0;pointer-events:none;z-index:0}
-.corners::before,.corners::after{content:'';position:fixed;width:22px;height:22px;border-color:rgba(200,184,154,0.22);border-style:solid}
-.corners::before{top:1.8rem;left:1.8rem;border-width:1px 0 0 1px}
-.corners::after{bottom:1.8rem;right:1.8rem;border-width:0 1px 1px 0}
-.corners2{position:fixed;inset:0;pointer-events:none;z-index:0}
-.corners2::before,.corners2::after{content:'';position:fixed;width:22px;height:22px;border-color:rgba(200,184,154,0.22);border-style:solid}
-.corners2::before{top:1.8rem;right:1.8rem;border-width:1px 1px 0 0}
-.corners2::after{bottom:1.8rem;left:1.8rem;border-width:0 0 1px 1px}
-
-/* SHIELD WATERMARK */
+    linear-gradient(rgba(240,236,228,0.020) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,236,228,0.020) 1px, transparent 1px);
+  background-size:52px 52px}
+.corners{position:fixed;inset:0;pointer-events:none;z-index:1}
+.corners::before,.corners::after{content:'';position:fixed;width:26px;height:26px;border-color:rgba(200,184,154,0.25);border-style:solid}
+.corners::before{top:2rem;left:2rem;border-width:1px 0 0 1px}
+.corners::after{bottom:2rem;right:2rem;border-width:0 1px 1px 0}
+.corners2{position:fixed;inset:0;pointer-events:none;z-index:1}
+.corners2::before,.corners2::after{content:'';position:fixed;width:26px;height:26px;border-color:rgba(200,184,154,0.25);border-style:solid}
+.corners2::before{top:2rem;right:2rem;border-width:1px 1px 0 0}
+.corners2::after{bottom:2rem;left:2rem;border-width:0 0 1px 1px}
+@keyframes rot{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
 .watermark{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:min(62vw,520px);height:min(62vw,520px);
-  pointer-events:none;z-index:0;opacity:0.055}
+  width:min(68vw,560px);height:min(68vw,560px);
+  pointer-events:none;z-index:0;opacity:0.058;
+  animation:rot 200s linear infinite}
+@keyframes scan{0%{top:-5%}100%{top:105%}}
+.scanline{position:fixed;left:0;right:0;height:140px;
+  background:linear-gradient(to bottom,transparent,rgba(200,184,154,0.022) 50%,transparent);
+  pointer-events:none;z-index:0;animation:scan 20s linear infinite}
+.coord{position:fixed;font-family:var(--mono);font-size:0.44rem;font-weight:300;
+  letter-spacing:0.16em;color:rgba(200,184,154,0.18);pointer-events:none;z-index:1}
+.coord-tl{top:2rem;left:4.6rem;display:flex;align-items:center;gap:5px}
+.coord-br{bottom:2rem;right:4.6rem}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.dot{width:4px;height:4px;border-radius:50%;background:rgba(200,184,154,0.45);
+  animation:blink 2.6s ease infinite;flex-shrink:0}
+
+
+/* AUDIO WAVEFORM PLAYER */
+.audio-section{margin-bottom:3.2rem;opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.92s forwards}
+.audio-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.9rem}
+.audio-label-tag{font-family:var(--mono);font-size:0.50rem;font-weight:300;
+  letter-spacing:0.24em;color:var(--muted);text-transform:uppercase;
+  display:flex;align-items:center;gap:0.5rem}
+.audio-label-tag::before{content:'';width:5px;height:5px;border:1px solid var(--accent);
+  border-radius:50%;opacity:0.65;flex-shrink:0}
+.audio-duration{font-family:var(--mono);font-size:0.48rem;font-weight:300;
+  letter-spacing:0.12em;color:var(--muted)}
+.audio-waveform{position:relative;height:52px;cursor:pointer;
+  display:flex;align-items:center;gap:1.5px;padding:0 0 2px}
+.audio-waveform canvas{position:absolute;inset:0;width:100%;height:100%}
+.audio-controls{display:flex;align-items:center;gap:1.2rem;margin-top:0.7rem}
+.audio-play{width:30px;height:30px;border-radius:50%;
+  border:1px solid rgba(240,236,228,0.16);background:transparent;
+  color:var(--fg);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;
+  transition:border-color 0.22s,background 0.22s;padding:0}
+.audio-play:hover{border-color:var(--accent);background:rgba(200,184,154,0.07)}
+.audio-time-cur{font-family:var(--mono);font-size:0.50rem;font-weight:300;
+  letter-spacing:0.12em;color:var(--muted)}
+
 
 /* LAYOUT */
-.wrap{max-width:640px;margin:0 auto;padding:clamp(5rem,12vw,9rem) clamp(2rem,6vw,3rem) 0;position:relative;z-index:1}
+.wrap{max-width:640px;margin:0 auto;padding:clamp(5.5rem,12vw,9rem) clamp(2rem,6vw,3rem) 0;position:relative;z-index:2}
 
 /* WORDMARK */
-.wordmark{font-family:var(--mono);font-weight:300;font-size:0.68rem;letter-spacing:0.38em;color:var(--muted);margin-bottom:clamp(4rem,10vw,7rem);opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.05s forwards}
+.wordmark{display:flex;align-items:baseline;gap:0.9rem;
+  margin-bottom:clamp(4rem,10vw,7rem);
+  opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.05s forwards}
+.wm-arkka{font-family:var(--mono);font-weight:400;font-size:0.9rem;
+  letter-spacing:0.32em;color:rgba(240,236,228,0.72)}
+.wm-sep{font-family:var(--mono);font-weight:300;font-size:0.7rem;
+  color:var(--muted);letter-spacing:0}
+.wm-codex{font-family:var(--mono);font-weight:300;font-size:0.62rem;
+  letter-spacing:0.28em;color:var(--accent);text-transform:uppercase}
 
 /* HEADLINE */
-h1{font-size:clamp(2.6rem,5.5vw,3.8rem);font-weight:300;line-height:1.07;letter-spacing:-0.018em;color:var(--fg);margin-bottom:3rem;opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.18s forwards}
+h1{font-size:clamp(2.7rem,5.8vw,4rem);font-weight:300;line-height:1.06;
+  letter-spacing:-0.022em;color:var(--fg);margin-bottom:3.2rem;
+  opacity:0;animation:up 1.1s cubic-bezier(0.16,1,0.3,1) 0.2s forwards}
 
 /* BODY */
-.body{font-size:clamp(1.15rem,2vw,1.32rem);font-weight:300;line-height:1.78;color:var(--mid);opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.3s forwards}
-.body p{margin-bottom:1.6rem}
+.body{font-size:clamp(1.12rem,1.9vw,1.28rem);font-weight:300;line-height:1.82;
+  color:var(--mid);opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.34s forwards}
+.body p{margin-bottom:1.65rem}
 .body p:last-child{margin-bottom:0}
 .body strong{font-weight:400;color:var(--fg)}
 .body em{font-style:italic;color:var(--accent)}
 
-/* DIVIDER */
-.rule{width:38px;height:1px;background:rgba(240,236,228,0.14);margin:3.5rem 0;opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.48s forwards}
+/* AUDIO PLAYER */
+.audio-label{font-family:var(--mono);font-size:0.52rem;font-weight:300;
+  letter-spacing:0.22em;color:var(--muted);text-transform:uppercase;
+  margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem}
+.audio-label::before{content:'';display:inline-block;width:5px;height:5px;
+  border:1px solid var(--accent);border-radius:50%;opacity:0.65}
+.audio-player{display:flex;align-items:center;gap:1rem;
+  padding:0.9rem 1.1rem;
+  border:1px solid rgba(240,236,228,0.07);
+  background:rgba(240,236,228,0.018)}
+.audio-btn{width:32px;height:32px;border-radius:50%;
+  border:1px solid rgba(240,236,228,0.18);background:transparent;
+  color:var(--fg);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;transition:border-color 0.22s,background 0.22s}
+.audio-btn:hover{border-color:var(--accent);background:rgba(200,184,154,0.08)}
+.audio-btn svg{width:12px;height:12px;fill:var(--fg)}
+.audio-progress-wrap{flex:1;display:flex;flex-direction:column;gap:0.4rem}
+.audio-bar-bg{width:100%;height:1px;background:rgba(240,236,228,0.10);
+  position:relative;cursor:pointer}
+.audio-bar-fill{height:100%;background:var(--accent);width:0%;
+  transition:width 0.1s linear;pointer-events:none}
+.audio-times{display:flex;justify-content:space-between}
+.audio-time{font-family:var(--mono);font-size:0.46rem;font-weight:300;
+  letter-spacing:0.1em;color:var(--muted)}
+.audio-title{font-family:var(--mono);font-size:0.52rem;font-weight:300;
+  letter-spacing:0.1em;color:rgba(240,236,228,0.38);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;max-width:160px}
+
+/* CODEX STATUS BANNER */
+.codex-status{margin-top:3rem;padding:1.4rem 1.4rem;
+  border:1px solid rgba(200,184,154,0.12);
+  border-left:2px solid rgba(200,184,154,0.35);
+  background:rgba(200,184,154,0.028);
+  opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.6s forwards}
+.codex-tag{font-family:var(--mono);font-size:0.50rem;font-weight:300;
+  letter-spacing:0.26em;color:var(--accent);text-transform:uppercase;
+  margin-bottom:0.7rem;display:flex;align-items:center;gap:0.5rem}
+.codex-tag::before{content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--accent);opacity:0.6;animation:blink 2s ease infinite}
+.codex-text{font-family:var(--mono);font-size:0.72rem;font-weight:300;
+  color:rgba(240,236,228,0.60);line-height:1.78;letter-spacing:0.02em}
+.codex-text strong{font-weight:400;color:rgba(240,236,228,0.82)}
+
+/* RULE */
+.rule{display:flex;align-items:center;gap:1rem;margin:3.8rem 0;
+  opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.68s forwards}
+.rule::before{content:'';display:block;width:36px;height:1px;background:rgba(240,236,228,0.14)}
+.rule::after{content:'VALIDATION RECORD';font-family:var(--mono);font-size:0.42rem;
+  font-weight:300;letter-spacing:0.30em;color:rgba(240,236,228,0.16);text-transform:uppercase}
 
 /* PROOF */
-.proof{opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.56s forwards}
-.proof-date{font-family:var(--mono);font-size:0.62rem;font-weight:300;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:1.3rem}
-.proof-headline{font-size:clamp(1.5rem,2.8vw,1.9rem);font-weight:300;line-height:1.38;color:var(--fg);margin-bottom:0.9rem}
-.proof-headline strong{font-weight:600}
-.proof-sub{font-size:clamp(1rem,1.7vw,1.14rem);font-weight:300;line-height:1.66;color:var(--mid);margin-bottom:2.2rem}
+.proof{opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.76s forwards}
+.proof-date{font-family:var(--mono);font-size:0.60rem;font-weight:300;
+  letter-spacing:0.30em;color:var(--accent);text-transform:uppercase;
+  margin-bottom:1.4rem;display:flex;align-items:center;gap:0.55rem}
+.proof-date::before{content:'';width:6px;height:6px;border:1px solid var(--accent);
+  border-radius:50%;opacity:0.7;flex-shrink:0}
+.proof-headline{font-size:clamp(1.55rem,2.9vw,2rem);font-weight:300;
+  line-height:1.34;color:var(--fg);margin-bottom:1rem}
+.proof-headline strong{font-weight:600;color:#fff;
+  text-shadow:0 0 40px rgba(200,184,154,0.14)}
+.proof-sub{font-size:clamp(0.98rem,1.6vw,1.1rem);font-weight:300;
+  line-height:1.7;color:var(--mid);margin-bottom:2.4rem}
 .proof-sub em{font-style:normal;color:var(--fg)}
-.data{display:flex;flex-direction:column;margin-bottom:3rem}
+
+/* STAT CALLOUT */
+.stat-callout{display:flex;gap:3rem;margin-bottom:2.4rem;padding:1.6rem 0;
+  border-top:1px solid rgba(240,236,228,0.055);
+  border-bottom:1px solid rgba(240,236,228,0.055);flex-wrap:wrap}
+.stat-item{display:flex;flex-direction:column;gap:0.3rem}
+.stat-num{font-family:var(--mono);font-size:1.6rem;font-weight:300;
+  color:#fff;letter-spacing:-0.02em;line-height:1}
+.stat-label{font-family:var(--mono);font-size:0.48rem;font-weight:300;
+  letter-spacing:0.18em;color:var(--muted);text-transform:uppercase}
+
+/* DATA TABLE */
+.data{display:flex;flex-direction:column;margin-bottom:0}
 .dr{display:grid;grid-template-columns:210px 1fr;gap:1rem;align-items:baseline;
-  border-bottom:1px solid rgba(240,236,228,0.06);padding:0.8rem 0}
-.dr:first-child{border-top:1px solid rgba(240,236,228,0.06)}
-.dl{font-family:var(--mono);font-size:0.57rem;font-weight:300;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase}
-.dv{font-family:var(--mono);font-size:0.75rem;font-weight:400;color:var(--mid);letter-spacing:0.04em;text-align:right}
-.dv.hi{color:var(--fg)}
-.dv.ac{color:var(--accent);font-size:0.62rem;letter-spacing:0.07em}
+  border-bottom:1px solid rgba(240,236,228,0.055);padding:0.88rem 0;
+  transition:background 0.2s}
+.dr:first-child{border-top:1px solid rgba(240,236,228,0.055)}
+.dr:hover{background:rgba(240,236,228,0.016)}
+.dl{font-family:var(--mono);font-size:0.55rem;font-weight:300;
+  letter-spacing:0.18em;color:var(--muted);text-transform:uppercase}
+.dv{font-family:var(--mono);font-size:0.76rem;font-weight:400;
+  color:var(--mid);letter-spacing:0.04em;text-align:right}
+.dv.hi{color:#fff}
+.dv.ac{color:var(--accent);font-size:0.63rem;letter-spacing:0.07em}
+
+/* DISCLAIMER */
+.disclaimer{margin-top:1.8rem;padding:1.3rem 1.4rem;
+  border:1px solid rgba(240,236,228,0.06);
+  background:rgba(240,236,228,0.012)}
+.disclaimer-tag{font-family:var(--mono);font-size:0.48rem;font-weight:300;
+  letter-spacing:0.26em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem}
+.disclaimer-text{font-family:var(--mono);font-size:0.62rem;font-weight:300;
+  color:rgba(240,236,228,0.38);line-height:1.82;letter-spacing:0.02em}
+.disclaimer-text strong{font-weight:400;color:rgba(240,236,228,0.54)}
 
 /* JOURNEY + CLOSE */
-.journey{font-size:clamp(1.5rem,2.8vw,1.9rem);font-weight:300;font-style:italic;color:var(--accent);margin-bottom:2.4rem;line-height:1.3;opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.74s forwards}
-.close{font-size:clamp(1.15rem,2vw,1.32rem);font-weight:400;line-height:1.52;color:var(--fg);margin-bottom:3rem;opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.86s forwards}
+.journey{font-size:clamp(1.55rem,2.9vw,2rem);font-weight:300;font-style:italic;
+  color:var(--accent);margin-top:3.2rem;margin-bottom:2.6rem;line-height:1.28;
+  opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.88s forwards}
+.close{font-size:clamp(1.12rem,1.9vw,1.28rem);font-weight:400;
+  line-height:1.54;color:var(--fg);margin-bottom:3.2rem;
+  opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 1s forwards}
 
 /* NAV */
-.nav{display:flex;gap:2.4rem;opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.96s forwards}
-.nav a{font-family:var(--mono);font-size:0.66rem;font-weight:300;letter-spacing:0.26em;text-transform:uppercase;color:var(--mid);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px;transition:color 0.25s,border-color 0.25s;cursor:pointer}
-.nav a:hover{color:var(--fg);border-color:rgba(240,236,228,0.28)}
+.nav{display:flex;gap:2.6rem;opacity:0;
+  animation:up 1s cubic-bezier(0.16,1,0.3,1) 1.1s forwards}
+.nav a{font-family:var(--mono);font-size:0.64rem;font-weight:300;
+  letter-spacing:0.28em;text-transform:uppercase;color:var(--mid);
+  text-decoration:none;padding-bottom:3px;
+  border-bottom:1px solid rgba(240,236,228,0.10);
+  transition:color 0.28s,border-color 0.28s;cursor:pointer;position:relative}
+.nav a::after{content:'';position:absolute;bottom:-1px;left:0;width:0;
+  height:1px;background:var(--accent);
+  transition:width 0.3s cubic-bezier(0.16,1,0.3,1)}
+.nav a:hover{color:var(--fg)}
+.nav a:hover::after{width:100%}
 
 /* FOOTER */
-footer{max-width:640px;margin:0 auto;padding:2.8rem clamp(2rem,6vw,3rem) 3rem;
-  border-top:1px solid rgba(240,236,228,0.07);
-  position:relative;z-index:1;opacity:0;animation:fade 1s ease 1.2s forwards}
-.ft-team{display:flex;gap:4rem;margin-bottom:1.8rem;flex-wrap:wrap}
-.ft-person{}
-.ft-name{font-family:var(--mono);font-size:0.64rem;font-weight:400;letter-spacing:0.10em;color:rgba(240,236,228,0.50);display:block;margin-bottom:0.26rem;transition:color 0.22s}
-.ft-name.clickable{cursor:pointer;border-bottom:1px solid transparent;transition:color 0.22s,border-color 0.22s}
-.ft-name.clickable:hover{color:rgba(240,236,228,0.82);border-color:rgba(240,236,228,0.22)}
-.ft-role{font-family:var(--mono);font-size:0.56rem;font-weight:300;letter-spacing:0.18em;color:rgba(240,236,228,0.24);text-transform:uppercase;display:block}
-.ft-verify{font-family:var(--serif);font-style:italic;font-size:0.8rem;color:rgba(240,236,228,0.14);letter-spacing:0.06em;margin-bottom:1.6rem}
-.ft-corp{font-family:var(--mono);font-size:0.52rem;font-weight:300;letter-spacing:0.14em;color:rgba(240,236,228,0.18);margin-bottom:1rem}
-.ft-copy{font-family:var(--mono);font-size:0.54rem;font-weight:300;letter-spacing:0.16em;color:rgba(240,236,228,0.20)}
+footer{max-width:640px;margin:0 auto;
+  padding:3rem clamp(2rem,6vw,3rem) 3.5rem;
+  border-top:1px solid rgba(240,236,228,0.06);
+  position:relative;z-index:2;
+  opacity:0;animation:fade 1s ease 1.3s forwards}
+.ft-team{display:flex;gap:4rem;margin-bottom:2rem;flex-wrap:wrap}
+.ft-name{font-family:var(--mono);font-size:0.62rem;font-weight:400;
+  letter-spacing:0.10em;color:rgba(240,236,228,0.44);display:block;
+  margin-bottom:0.28rem;border-bottom:1px solid transparent;
+  padding-bottom:1px;transition:color 0.22s,border-color 0.22s}
+.ft-name.clickable{cursor:pointer}
+.ft-name.clickable:hover{color:rgba(240,236,228,0.78);
+  border-color:rgba(200,184,154,0.28)}
+.ft-role{font-family:var(--mono);font-size:0.52rem;font-weight:300;
+  letter-spacing:0.18em;color:rgba(240,236,228,0.20);text-transform:uppercase;display:block}
+.ft-verify{font-family:var(--serif);font-style:italic;font-size:0.76rem;
+  color:rgba(240,236,228,0.11);letter-spacing:0.05em;margin-bottom:1.4rem}
+.ft-corp{font-family:var(--mono);font-size:0.49rem;font-weight:300;
+  letter-spacing:0.14em;color:rgba(240,236,228,0.15);margin-bottom:0.9rem}
+.ft-copy{font-family:var(--mono);font-size:0.50rem;font-weight:300;
+  letter-spacing:0.16em;color:rgba(240,236,228,0.16)}
 
-/* ===== MODAL BASE ===== */
-.overlay{position:fixed;inset:0;background:rgba(3,3,3,0.92);z-index:200;
+/* MODALS */
+.overlay{position:fixed;inset:0;background:rgba(2,2,2,0.94);z-index:300;
   display:flex;align-items:flex-end;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity 0.32s ease;
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  opacity:0;pointer-events:none;transition:opacity 0.30s ease;
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .overlay.open{opacity:1;pointer-events:all}
-.modal{background:#0b0a08;border:1px solid rgba(240,236,228,0.09);
+.modal{background:#0a0908;border:1px solid rgba(240,236,228,0.08);
   border-bottom:none;width:100%;max-width:640px;
-  padding:2.6rem clamp(2rem,6vw,3rem) 3rem;
-  transform:translateY(30px);
-  transition:transform 0.42s cubic-bezier(0.16,1,0.3,1);
+  padding:2.6rem clamp(2rem,6vw,3rem) 3.2rem;
+  transform:translateY(32px);
+  transition:transform 0.44s cubic-bezier(0.16,1,0.3,1);
   max-height:88vh;overflow-y:auto;
-  scrollbar-width:thin;scrollbar-color:rgba(240,236,228,0.08) transparent}
+  scrollbar-width:thin;scrollbar-color:rgba(240,236,228,0.07) transparent}
 .overlay.open .modal{transform:translateY(0)}
-.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
-.modal-title{font-family:var(--mono);font-size:0.62rem;font-weight:300;letter-spacing:0.30em;color:var(--muted);text-transform:uppercase}
-.modal-x{font-family:var(--mono);font-size:0.60rem;font-weight:300;color:var(--muted);background:none;border:none;cursor:pointer;letter-spacing:0.08em;transition:color 0.2s;padding:0}
+.modal-head{display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:2.2rem;padding-bottom:1.2rem;
+  border-bottom:1px solid rgba(240,236,228,0.06)}
+.modal-title{font-family:var(--mono);font-size:0.60rem;font-weight:300;
+  letter-spacing:0.32em;color:var(--muted);text-transform:uppercase;
+  display:flex;align-items:center;gap:0.5rem}
+.modal-title::before{content:'';width:5px;height:5px;
+  border:1px solid var(--accent);border-radius:50%;opacity:0.6}
+.modal-x{font-family:var(--mono);font-size:0.58rem;color:var(--muted);
+  background:none;border:none;cursor:pointer;transition:color 0.2s;padding:0}
 .modal-x:hover{color:var(--fg)}
-
-/* ===== FORM ELEMENTS ===== */
-.fg{margin-bottom:1.5rem}
-label.lbl{display:block;font-family:var(--mono);font-size:0.55rem;font-weight:300;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;margin-bottom:0.55rem}
+.fg{margin-bottom:1.6rem}
+label.lbl{display:block;font-family:var(--mono);font-size:0.53rem;font-weight:300;
+  letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem}
 input[type=text],input[type=email],input[type=url],textarea{
-  width:100%;background:var(--ibg);
-  border:1px solid rgba(240,236,228,0.09);
-  color:var(--fg);font-family:var(--serif);font-size:1.05rem;font-weight:300;
-  padding:0.72rem 0.9rem;outline:none;border-radius:0;
-  -webkit-appearance:none;appearance:none;transition:border-color 0.22s}
-input::placeholder,textarea::placeholder{color:rgba(240,236,228,0.20)}
-input:focus,textarea:focus{border-color:rgba(240,236,228,0.30)}
-textarea{resize:vertical;min-height:110px;line-height:1.62}
-.opts{display:flex;flex-direction:column;gap:0.45rem;padding:0.3rem 0}
-.opt{display:flex;align-items:center;gap:0.7rem;cursor:pointer}
-.opt input[type=radio]{width:13px;height:13px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+  width:100%;background:rgba(240,236,228,0.025);
+  border:1px solid rgba(240,236,228,0.08);color:var(--fg);
+  font-family:var(--serif);font-size:1.05rem;font-weight:300;
+  padding:0.75rem 0.95rem;outline:none;border-radius:0;
+  -webkit-appearance:none;appearance:none;
+  transition:border-color 0.22s,background 0.22s}
+input::placeholder,textarea::placeholder{color:rgba(240,236,228,0.17)}
+input:focus,textarea:focus{border-color:rgba(200,184,154,0.35);
+  background:rgba(240,236,228,0.034)}
+textarea{resize:vertical;min-height:110px;line-height:1.65}
+.opts{display:flex;flex-direction:column;gap:0.5rem;padding:0.3rem 0}
+.opt{display:flex;align-items:center;gap:0.75rem;cursor:pointer}
+.opt input[type=radio]{width:12px;height:12px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
 .opt span{font-family:var(--serif);font-size:1rem;font-weight:300;color:var(--mid)}
 .file-pick{display:flex;align-items:center;gap:0.9rem;
-  border:1px solid rgba(240,236,228,0.09);padding:0.72rem 0.9rem;
+  border:1px solid rgba(240,236,228,0.08);padding:0.75rem 0.95rem;
   cursor:pointer;transition:border-color 0.22s}
-.file-pick:hover{border-color:rgba(240,236,228,0.24)}
+.file-pick:hover{border-color:rgba(200,184,154,0.28)}
 .file-pick input{display:none}
-.file-tag{font-family:var(--mono);font-size:0.54rem;letter-spacing:0.14em;color:var(--accent);text-transform:uppercase;white-space:nowrap}
-.file-nm{font-family:var(--serif);font-size:0.98rem;font-weight:300;color:rgba(240,236,228,0.28);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.btn{font-family:var(--mono);font-size:0.60rem;font-weight:400;letter-spacing:0.28em;text-transform:uppercase;color:var(--bg);background:var(--fg);border:none;padding:1rem;cursor:pointer;width:100%;margin-top:0.6rem;transition:opacity 0.2s}
-.btn:hover{opacity:0.86}
-.btn:disabled{opacity:0.5;cursor:not-allowed}
-.fnote{font-family:var(--mono);font-size:0.52rem;font-weight:300;letter-spacing:0.10em;color:rgba(240,236,228,0.24);margin-top:0.9rem;line-height:1.72}
-.success{display:none;padding:2.8rem 0;text-align:center}
-.success p{font-size:1.2rem;font-weight:300;color:var(--mid);line-height:1.68}
+.file-tag{font-family:var(--mono);font-size:0.52rem;letter-spacing:0.16em;
+  color:var(--accent);text-transform:uppercase;white-space:nowrap}
+.file-nm{font-family:var(--serif);font-size:0.96rem;font-weight:300;
+  color:rgba(240,236,228,0.24);flex:1;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.btn{font-family:var(--mono);font-size:0.60rem;font-weight:400;
+  letter-spacing:0.30em;text-transform:uppercase;
+  color:var(--bg);background:var(--fg);border:none;
+  padding:1.05rem;cursor:pointer;width:100%;margin-top:0.6rem;
+  transition:opacity 0.2s}
+.btn:hover{opacity:0.88}
+.btn:disabled{opacity:0.4;cursor:not-allowed}
+.fnote{font-family:var(--mono);font-size:0.50rem;font-weight:300;
+  letter-spacing:0.10em;color:rgba(240,236,228,0.20);margin-top:1rem;line-height:1.76}
+.success{display:none;padding:3rem 0;text-align:center}
+.success p{font-size:1.22rem;font-weight:300;color:var(--mid);line-height:1.7}
 .success strong{font-weight:400;color:var(--fg)}
-
-/* ===== DOSSIER MODAL ===== */
-.dossier{position:relative}
-.dossier-corners{position:absolute;inset:0;pointer-events:none}
-.dossier-name{font-family:var(--serif);font-size:clamp(1.4rem,2.6vw,1.8rem);font-weight:300;color:var(--fg);margin-bottom:0.4rem}
-.dossier-title{font-family:var(--mono);font-size:0.60rem;font-weight:300;letter-spacing:0.22em;color:var(--accent);text-transform:uppercase;margin-bottom:2.4rem}
-.dossier-grid{display:flex;flex-direction:column;gap:1.6rem}
-.d-block{}
-.d-tag{font-family:var(--mono);font-size:0.52rem;font-weight:300;letter-spacing:0.22em;color:rgba(240,236,228,0.28);text-transform:uppercase;margin-bottom:0.5rem;display:block}
-.d-content{font-family:var(--mono);font-size:0.80rem;font-weight:300;color:rgba(240,236,228,0.68);line-height:1.76;letter-spacing:0.02em}
+.dossier-name{font-family:var(--serif);font-size:clamp(1.5rem,2.8vw,1.9rem);
+  font-weight:300;color:var(--fg);margin-bottom:0.42rem}
+.dossier-title{font-family:var(--mono);font-size:0.58rem;font-weight:300;
+  letter-spacing:0.24em;color:var(--accent);text-transform:uppercase;margin-bottom:2.6rem}
+.dossier-grid{display:flex;flex-direction:column;gap:1.7rem}
+.d-tag{font-family:var(--mono);font-size:0.50rem;font-weight:300;
+  letter-spacing:0.24em;color:rgba(240,236,228,0.24);text-transform:uppercase;
+  margin-bottom:0.48rem;display:block}
+.d-content{font-family:var(--mono);font-size:0.78rem;font-weight:300;
+  color:rgba(240,236,228,0.62);line-height:1.78;letter-spacing:0.02em}
 .d-content span{color:var(--fg)}
 .d-content em{font-style:italic;color:var(--accent)}
-.dossier-footer{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(240,236,228,0.07)}
-.dossier-stamp{font-family:var(--mono);font-size:0.50rem;font-weight:300;letter-spacing:0.18em;color:rgba(240,236,228,0.20);text-transform:uppercase;line-height:1.8}
+.dossier-footer{margin-top:2.6rem;padding-top:1.4rem;
+  border-top:1px solid rgba(240,236,228,0.07)}
+.dossier-stamp{font-family:var(--mono);font-size:0.48rem;font-weight:300;
+  letter-spacing:0.18em;color:rgba(240,236,228,0.18);
+  text-transform:uppercase;line-height:1.9}
 
-/* SCAN LINE */
-@keyframes scan{0%{top:-8%}100%{top:108%}}
-.scanline{position:fixed;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,184,154,0.06),transparent);pointer-events:none;z-index:0;animation:scan 12s linear infinite}
-
-/* COORD LABELS */
-.coord{position:fixed;font-family:var(--mono);font-size:0.48rem;font-weight:300;letter-spacing:0.14em;color:rgba(200,184,154,0.18);pointer-events:none;z-index:0}
-.coord-tl{top:1.6rem;left:4.2rem}
-.coord-br{bottom:1.6rem;right:4.2rem}
-@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
-
-/* MOBILE */
-@media(max-width:540px){
-  .dr{grid-template-columns:1fr;gap:0.2rem}
-  .dv{text-align:left}
-  .data{gap:0}
+@media(max-width:560px){
+  .dr{grid-template-columns:1fr;gap:0.18rem}.dv{text-align:left}
+  .stat-callout{gap:2rem}.stat-num{font-size:1.2rem}
   .ft-team{gap:2rem}
-  .ft-verify{font-size:0.72rem}
+  .corners::before{top:1rem;left:1rem}.corners::after{bottom:1rem;right:1rem}
+  .corners2::before{top:1rem;right:1rem}.corners2::after{bottom:1rem;left:1rem}
 }
 </style>
 </head>
 <body>
 <div class="grain"></div>
+<div class="vignette"></div>
 <div class="grid-bg"></div>
 <div class="corners"></div>
 <div class="corners2"></div>
 <div class="scanline"></div>
-<div class="coord coord-tl">23.5505° S &nbsp;46.6333° W</div>
-<div class="coord coord-br">ARKKA · SYS_ONLINE · 2026</div>
+<div class="coord coord-tl"><span class="dot"></span>23.5505° S &thinsp;46.6333° W</div>
+<div class="coord coord-br">ARKKA &thinsp;·&thinsp; SYS_ONLINE &thinsp;·&thinsp; 2026</div>
 
-<!-- SHIELD WATERMARK -->
 <svg class="watermark" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- outer hexagon -->
-  <polygon points="200,18 362,109 362,291 200,382 38,291 38,109" stroke="#f0ece4" stroke-width="0.8" fill="none"/>
-  <!-- inner hexagon rotated -->
-  <polygon points="200,48 335,124 335,276 200,352 65,276 65,124" stroke="#f0ece4" stroke-width="0.5" fill="none" opacity="0.6"/>
-  <!-- circle -->
-  <circle cx="200" cy="200" r="110" stroke="#f0ece4" stroke-width="0.6" fill="none" opacity="0.5"/>
-  <!-- inner circle -->
-  <circle cx="200" cy="200" r="68" stroke="#f0ece4" stroke-width="0.5" fill="none" opacity="0.4"/>
-  <!-- triangle up -->
-  <polygon points="200,92 293,247 107,247" stroke="#f0ece4" stroke-width="0.6" fill="none" opacity="0.45"/>
-  <!-- triangle down -->
-  <polygon points="200,308 107,153 293,153" stroke="#f0ece4" stroke-width="0.5" fill="none" opacity="0.35"/>
-  <!-- radial lines -->
-  <line x1="200" y1="18" x2="200" y2="48" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
-  <line x1="362" y1="109" x2="335" y2="124" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
-  <line x1="362" y1="291" x2="335" y2="276" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
-  <line x1="200" y1="382" x2="200" y2="352" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
-  <line x1="38" y1="291" x2="65" y2="276" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
-  <line x1="38" y1="109" x2="65" y2="124" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
-  <!-- center dot -->
-  <circle cx="200" cy="200" r="3" fill="#f0ece4" opacity="0.5"/>
-  <!-- cross lines -->
-  <line x1="200" y1="130" x2="200" y2="270" stroke="#f0ece4" stroke-width="0.4" opacity="0.25"/>
-  <line x1="130" y1="200" x2="270" y2="200" stroke="#f0ece4" stroke-width="0.4" opacity="0.25"/>
-  <!-- tick marks on circle -->
-  <line x1="200" y1="89" x2="200" y2="96" stroke="#f0ece4" stroke-width="0.7" opacity="0.5"/>
-  <line x1="200" y1="304" x2="200" y2="311" stroke="#f0ece4" stroke-width="0.7" opacity="0.5"/>
-  <line x1="89" y1="200" x2="96" y2="200" stroke="#f0ece4" stroke-width="0.7" opacity="0.5"/>
-  <line x1="304" y1="200" x2="311" y2="200" stroke="#f0ece4" stroke-width="0.7" opacity="0.5"/>
+  <polygon points="200,14 368,107 368,293 200,386 32,293 32,107" stroke="#f0ece4" stroke-width="0.7" fill="none"/>
+  <polygon points="200,44 338,121 338,279 200,356 62,279 62,121" stroke="#f0ece4" stroke-width="0.45" fill="none" opacity="0.55"/>
+  <polygon points="200,74 308,135 308,265 200,326 92,265 92,135" stroke="#f0ece4" stroke-width="0.32" fill="none" opacity="0.32"/>
+  <circle cx="200" cy="200" r="118" stroke="#f0ece4" stroke-width="0.55" fill="none" opacity="0.42"/>
+  <circle cx="200" cy="200" r="76" stroke="#f0ece4" stroke-width="0.38" fill="none" opacity="0.32"/>
+  <circle cx="200" cy="200" r="34" stroke="#f0ece4" stroke-width="0.32" fill="none" opacity="0.22"/>
+  <polygon points="200,86 297,251 103,251" stroke="#f0ece4" stroke-width="0.55" fill="none" opacity="0.38"/>
+  <polygon points="200,314 103,149 297,149" stroke="#f0ece4" stroke-width="0.38" fill="none" opacity="0.28"/>
+  <line x1="200" y1="14" x2="200" y2="44" stroke="#f0ece4" stroke-width="0.5" opacity="0.42"/>
+  <line x1="368" y1="107" x2="338" y2="121" stroke="#f0ece4" stroke-width="0.5" opacity="0.42"/>
+  <line x1="368" y1="293" x2="338" y2="279" stroke="#f0ece4" stroke-width="0.5" opacity="0.42"/>
+  <line x1="200" y1="386" x2="200" y2="356" stroke="#f0ece4" stroke-width="0.5" opacity="0.42"/>
+  <line x1="32" y1="293" x2="62" y2="279" stroke="#f0ece4" stroke-width="0.5" opacity="0.42"/>
+  <line x1="32" y1="107" x2="62" y2="121" stroke="#f0ece4" stroke-width="0.5" opacity="0.42"/>
+  <circle cx="200" cy="200" r="2.5" fill="#f0ece4" opacity="0.55"/>
+  <line x1="200" y1="124" x2="200" y2="276" stroke="#f0ece4" stroke-width="0.3" opacity="0.18"/>
+  <line x1="124" y1="200" x2="276" y2="200" stroke="#f0ece4" stroke-width="0.3" opacity="0.18"/>
+  <line x1="200" y1="82" x2="200" y2="90" stroke="#f0ece4" stroke-width="0.8" opacity="0.52"/>
+  <line x1="200" y1="310" x2="200" y2="318" stroke="#f0ece4" stroke-width="0.8" opacity="0.52"/>
+  <line x1="82" y1="200" x2="90" y2="200" stroke="#f0ece4" stroke-width="0.8" opacity="0.52"/>
+  <line x1="310" y1="200" x2="318" y2="200" stroke="#f0ece4" stroke-width="0.8" opacity="0.52"/>
 </svg>
 
-<!-- ===== FORM MODALS ===== -->
-
-<!-- CONTACT -->
+<!-- MODALS -->
 <div class="overlay" id="ov-contact">
   <div class="modal">
-    <div class="modal-head">
-      <span class="modal-title">Contact</span>
-      <button class="modal-x" onclick="closeM('ov-contact')">Close ✕</button>
-    </div>
+    <div class="modal-head"><span class="modal-title">Contact</span><button class="modal-x" onclick="closeM('ov-contact')">Close ✕</button></div>
     <form id="f-contact" action="https://api.web3forms.com/submit" method="POST">
-      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+      <input type="hidden" name="access_key" value="7fba39d4-4581-49e5-8cfa-e0c51ee4d6b7">
       <input type="hidden" name="subject" value="ARKKA — Contact">
       <input type="hidden" name="from_name" value="ARKKA Website">
       <input type="hidden" name="redirect" value="false">
@@ -260,15 +403,11 @@ textarea{resize:vertical;min-height:110px;line-height:1.62}
   </div>
 </div>
 
-<!-- INVESTORS -->
 <div class="overlay" id="ov-investors">
   <div class="modal">
-    <div class="modal-head">
-      <span class="modal-title">Investors</span>
-      <button class="modal-x" onclick="closeM('ov-investors')">Close ✕</button>
-    </div>
+    <div class="modal-head"><span class="modal-title">Investors</span><button class="modal-x" onclick="closeM('ov-investors')">Close ✕</button></div>
     <form id="f-investors" action="https://api.web3forms.com/submit" method="POST">
-      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+      <input type="hidden" name="access_key" value="7fba39d4-4581-49e5-8cfa-e0c51ee4d6b7">
       <input type="hidden" name="subject" value="ARKKA — Investor Inquiry">
       <input type="hidden" name="from_name" value="ARKKA Website">
       <input type="hidden" name="redirect" value="false">
@@ -276,8 +415,7 @@ textarea{resize:vertical;min-height:110px;line-height:1.62}
       <div class="fg"><label class="lbl" for="in_">Name</label><input type="text" id="in_" name="name" required placeholder="Your name"></div>
       <div class="fg"><label class="lbl" for="ie">Email</label><input type="email" id="ie" name="email" required placeholder="your@fund.com"></div>
       <div class="fg"><label class="lbl" for="io">Organization</label><input type="text" id="io" name="organization" placeholder="Fund or firm name"></div>
-      <div class="fg">
-        <label class="lbl">Investment stage</label>
+      <div class="fg"><label class="lbl">Investment stage</label>
         <div class="opts">
           <label class="opt"><input type="radio" name="stage" value="Pre-Seed / Seed"><span>Pre-Seed / Seed</span></label>
           <label class="opt"><input type="radio" name="stage" value="Series A"><span>Series A</span></label>
@@ -293,23 +431,18 @@ textarea{resize:vertical;min-height:110px;line-height:1.62}
   </div>
 </div>
 
-<!-- APPLY -->
 <div class="overlay" id="ov-apply">
   <div class="modal">
-    <div class="modal-head">
-      <span class="modal-title">Apply</span>
-      <button class="modal-x" onclick="closeM('ov-apply')">Close ✕</button>
-    </div>
+    <div class="modal-head"><span class="modal-title">Apply</span><button class="modal-x" onclick="closeM('ov-apply')">Close ✕</button></div>
     <form id="f-apply" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+      <input type="hidden" name="access_key" value="7fba39d4-4581-49e5-8cfa-e0c51ee4d6b7">
       <input type="hidden" name="subject" value="ARKKA — Application">
       <input type="hidden" name="from_name" value="ARKKA Website">
       <input type="hidden" name="redirect" value="false">
       <input type="checkbox" name="botcheck" style="display:none">
       <div class="fg"><label class="lbl" for="an">Name</label><input type="text" id="an" name="name" required placeholder="Your name"></div>
       <div class="fg"><label class="lbl" for="ae">Email</label><input type="email" id="ae" name="email" required placeholder="your@email.com"></div>
-      <div class="fg">
-        <label class="lbl">Area of expertise</label>
+      <div class="fg"><label class="lbl">Area of expertise</label>
         <div class="opts">
           <label class="opt"><input type="radio" name="area" value="AI Research"><span>AI Research</span></label>
           <label class="opt"><input type="radio" name="area" value="Systems Engineering"><span>Systems Engineering</span></label>
@@ -319,12 +452,11 @@ textarea{resize:vertical;min-height:110px;line-height:1.62}
       </div>
       <div class="fg"><label class="lbl" for="au">LinkedIn or Portfolio</label><input type="url" id="au" name="portfolio" placeholder="https://"></div>
       <div class="fg"><label class="lbl" for="am">Why ARKKA</label><textarea id="am" name="message" required style="min-height:90px" placeholder="What draws you to this work?"></textarea></div>
-      <div class="fg">
-        <label class="lbl">CV / Résumé</label>
+      <div class="fg"><label class="lbl">CV / Résumé</label>
         <label class="file-pick">
           <input type="file" name="cv" accept=".pdf,.doc,.docx" onchange="setFile(this)">
           <span class="file-tag">Attach</span>
-          <span class="file-nm" id="fname">PDF or DOC · max 10 MB</span>
+          <span class="file-nm" id="fname">PDF or DOC &thinsp;·&thinsp; max 10 MB</span>
         </label>
       </div>
       <button type="submit" class="btn">Submit application</button>
@@ -334,84 +466,41 @@ textarea{resize:vertical;min-height:110px;line-height:1.62}
   </div>
 </div>
 
-<!-- DIEGO DOSSIER -->
 <div class="overlay" id="ov-dossier">
   <div class="modal">
-    <div class="modal-head">
-      <span class="modal-title">Founder Profile</span>
-      <button class="modal-x" onclick="closeM('ov-dossier')">Close ✕</button>
-    </div>
-    <div class="dossier">
-      <!-- Corner brackets -->
-      <svg class="dossier-corners" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);pointer-events:none;opacity:0.35">
-        <polyline points="0,12 0,0 12,0" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
-        <polyline points="88,0 100,0 100,12" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
-        <polyline points="0,88 0,100 12,100" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
-        <polyline points="88,100 100,100 100,88" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
+    <div class="modal-head"><span class="modal-title">Founder Profile</span><button class="modal-x" onclick="closeM('ov-dossier')">Close ✕</button></div>
+    <div style="position:relative;padding:0.2rem">
+      <svg style="position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);pointer-events:none;opacity:0.36" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <polyline points="0,14 0,0 14,0" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
+        <polyline points="86,0 100,0 100,14" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
+        <polyline points="0,86 0,100 14,100" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
+        <polyline points="86,100 100,100 100,86" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
       </svg>
-
       <div class="dossier-name">Diego Bissolotti Gasques</div>
       <div class="dossier-title">Founder &amp; CEO — ARKKA</div>
-
       <div class="dossier-grid">
-        <div class="d-block">
-          <span class="d-tag">[Experience]</span>
-          <div class="d-content">
-            <span>33+ years of programming.</span> Elite software engineer<br>
-            and systems architect. Technology entrepreneur, 20+ years.
-          </div>
-        </div>
-        <div class="d-block">
-          <span class="d-tag">[Academic Formation]</span>
-          <div class="d-content">
-            Business Administration · Post-graduate in IT<br>
-            Linear Algebra · MIT Advanced Mathematics
-          </div>
-        </div>
-        <div class="d-block">
-          <span class="d-tag">[Certifications]</span>
-          <div class="d-content">
-            Google Cloud Professional Architect · Oracle · UCI<br>
-            Intel Masters AI — <span>Score: 98.5/100, Top 12 Global</span>
-          </div>
-        </div>
-        <div class="d-block">
-          <span class="d-tag">[Media &amp; Finance]</span>
-          <div class="d-content">
-            12 years at Rede Globo — Host &amp; Executive Producer.<br>
-            Senior analyst, financial sector — New York.
-          </div>
-        </div>
-        <div class="d-block">
-          <span class="d-tag">[Reach]</span>
-          <div class="d-content">
-            <span>219K followers</span> — organic distribution network.<br>
-            Zero CAC acquisition model. Zero paid media.
-          </div>
-        </div>
-        <div class="d-block">
-          <span class="d-tag">[Methodology]</span>
-          <div class="d-content">
-            <em>"Vencer primeiro, depois lutar."</em><br>
-            Infrastructure self-builds based on demand.<br>
-            No advancement without measurable empirical evidence.
-          </div>
-        </div>
+        <div><span class="d-tag">[Experience]</span><div class="d-content"><span>33+ years of programming.</span> Elite software engineer and systems architect. Technology entrepreneur, 20+ years.</div></div>
+        <div><span class="d-tag">[Academic Formation]</span><div class="d-content">Business Administration · Post-graduate in IT<br>Linear Algebra · MIT Advanced Mathematics</div></div>
+        <div><span class="d-tag">[Certifications]</span><div class="d-content">Google Cloud Professional Architect · Oracle · UCI<br>Intel Masters AI — <span>Score: 98.5/100, Top 12 Global</span></div></div>
+        <div><span class="d-tag">[Media &amp; Finance]</span><div class="d-content">12 years at Rede Globo — Host &amp; Executive Producer.<br>Senior analyst, financial sector — New York.</div></div>
+        <div><span class="d-tag">[Reach]</span><div class="d-content"><span>219K followers</span> — organic distribution network. Zero CAC acquisition model. Zero paid media.</div></div>
+        <div><span class="d-tag">[Methodology]</span><div class="d-content"><em>"Vencer primeiro, depois lutar."</em><br>Infrastructure self-builds based on demand.<br>No advancement without measurable empirical evidence.</div></div>
       </div>
-
       <div class="dossier-footer">
-        <div class="dossier-stamp">
-          [IDENTITY VERIFIED] · [CREDENTIALS CONFIRMED] · [AUTH_LEVEL: FOUNDER]<br>
-          ARKKA · Delaware C-Corp · Est. 2024 · [SYSTEM_INTEGRITY: SECURE]
-        </div>
+        <div class="dossier-stamp">[IDENTITY VERIFIED] &thinsp;·&thinsp; [CREDENTIALS CONFIRMED] &thinsp;·&thinsp; [AUTH_LEVEL: FOUNDER]<br>ARKKA &thinsp;·&thinsp; Delaware C-Corp &thinsp;·&thinsp; Est. 2024 &thinsp;·&thinsp; [SYSTEM_INTEGRITY: SECURE]</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== PAGE ===== -->
+<!-- PAGE -->
 <div class="wrap">
-  <div class="wordmark">ARKKA</div>
+
+  <div class="wordmark">
+    <span class="wm-arkka">ARKKA</span>
+    <span class="wm-sep">—</span>
+    <span class="wm-codex">CODEX AI</span>
+  </div>
 
   <h1>Secure, reliable AI<br>is within reach.</h1>
 
@@ -425,12 +514,31 @@ textarea{resize:vertical;min-height:110px;line-height:1.62}
     <p>We are assembling a focused team of engineers and researchers who understand that solving AI trust is the most important technical work of our generation.</p>
   </div>
 
+  </div>
+
+  <!-- CODEX STATUS -->
+  <div class="codex-status">
+    <div class="codex-tag">CODEX &thinsp;·&thinsp; Audit in Progress</div>
+    <div class="codex-text">
+      The CODEX solution — the proprietary technology behind the results published on April 16, 2026 — is currently undergoing <strong>full external audit</strong>. This includes independent review of the complete validation methodology, sequential test protocols, and the mathematical framework applied throughout the development process.<br><br>
+      ARKKA operates under a principle of <strong>radical empirical discipline</strong>: no result is considered final until independently confirmed. The published figures reflect internal validation across multiple sequential test cycles using distinct methodologies, each confirming the same outcome. The SHA-256 hash and 61-page validation record were published only after this internal standard was met.<br><br>
+      CODEX is <strong>proprietary security technology</strong> in its early stages. Its full potential has not yet been realized. We are building the mathematical compliance layer that the AI era requires — and we are doing it with the rigor that the problem demands.
+    </div>
+  </div>
+
   <div class="rule"></div>
 
   <div class="proof">
     <div class="proof-date">April 16, 2026</div>
     <p class="proof-headline">We proved that AI hallucination can be<br>reduced by <strong>96.8%.</strong></p>
     <p class="proof-sub">From <em>67.88%</em> to <em>2.17%</em> — with a statistical significance of <em>p&nbsp;=&nbsp;3.04&nbsp;×&nbsp;10⁻¹⁸</em>.<br>This is not a claim. This is a result. Documented, hashed, and internally audited.</p>
+
+    <div class="stat-callout">
+      <div class="stat-item"><span class="stat-num">96.8%</span><span class="stat-label">Reduction</span></div>
+      <div class="stat-item"><span class="stat-num">2.17%</span><span class="stat-label">Error rate after</span></div>
+      <div class="stat-item"><span class="stat-num" style="font-size:1.1rem;padding-top:0.25rem">10⁻¹⁸</span><span class="stat-label">Significance</span></div>
+    </div>
+
     <div class="data">
       <div class="dr"><span class="dl">Error rate before</span><span class="dv">67.88%</span></div>
       <div class="dr"><span class="dl">Error rate after</span><span class="dv hi">2.17%</span></div>
@@ -438,10 +546,37 @@ textarea{resize:vertical;min-height:110px;line-height:1.62}
       <div class="dr"><span class="dl">Statistical significance</span><span class="dv">p = 3.04 × 10⁻¹⁸</span></div>
       <div class="dr"><span class="dl">Document SHA-256</span><span class="dv ac">6a3f7207 &thinsp;·&thinsp; 61 pages &thinsp;·&thinsp; audited</span></div>
     </div>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+      <div class="disclaimer-tag">Disclosure &thinsp;·&thinsp; Validation Status</div>
+      <div class="disclaimer-text">
+        The results published above were obtained through internal validation and have not yet been subject to independent external audit. While ARKKA is <strong>confident in the methodology and conclusions</strong> — confirmed across sequential tests using distinct evaluation frameworks — we acknowledge that all scientific results benefit from independent replication. The complete validation record, methodology, and test parameters are currently under external review. <strong>These figures represent our current best measurement</strong> of CODEX solution efficacy and will be updated as the audit process concludes. Publication of the SHA-256 hash establishes the existence and integrity of the underlying 61-page technical document as of April 16, 2026.
+      </div>
+    </div>
   </div>
 
   <div class="journey">We are just beginning.</div>
 
+
+  <!-- AUDIO PLAYER WITH WAVEFORM -->
+  <div class="audio-section" id="audioSection">
+    <div class="audio-meta">
+      <span class="audio-label-tag">Deep Dive &thinsp;·&thinsp; CODEX AI</span>
+      <span class="audio-duration" id="aDur">--:--</span>
+    </div>
+    <div class="audio-waveform" id="waveform"></div>
+    <div class="audio-controls">
+      <button class="audio-play" id="aPlayBtn" onclick="aToggle()">
+        <svg id="aIconPlay" viewBox="0 0 10 12" width="10" height="12" fill="currentColor"><polygon points="0,0 10,6 0,12"/></svg>
+        <svg id="aIconPause" viewBox="0 0 10 12" width="10" height="12" fill="currentColor" style="display:none"><rect x="0" y="0" width="3.5" height="12"/><rect x="6.5" y="0" width="3.5" height="12"/></svg>
+      </button>
+      <div class="audio-time-cur" id="aTimeCur">0:00</div>
+    </div>
+    <audio id="aEl" preload="metadata">
+      <source src="audio.mp3" type="audio/mpeg">
+    </audio>
+  
   <div class="close">Now is the time.<br>Join us.</div>
 
   <nav class="nav">
@@ -468,53 +603,130 @@ textarea{resize:vertical;min-height:110px;line-height:1.62}
 </footer>
 
 <script>
-function openM(id){
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function closeM(id){
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow='';
-}
+function openM(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+function closeM(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
 document.querySelectorAll('.overlay').forEach(o=>{
-  o.addEventListener('click',e=>{ if(e.target===o) closeM(o.id); });
+  o.addEventListener('click',e=>{if(e.target===o)closeM(o.id)})
 });
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape')
-    document.querySelectorAll('.overlay.open').forEach(o=>closeM(o.id));
+  if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(o=>closeM(o.id))
 });
 function setFile(input){
-  document.getElementById('fname').textContent =
-    input.files[0] ? input.files[0].name : 'PDF or DOC · max 10 MB';
+  document.getElementById('fname').textContent=input.files[0]?input.files[0].name:'PDF or DOC · max 10 MB'
 }
 document.querySelectorAll('form').forEach(form=>{
-  form.addEventListener('submit', async e=>{
+  form.addEventListener('submit',async e=>{
     e.preventDefault();
-    const id = form.id.replace('f-','');
-    const btn = form.querySelector('.btn');
-    const orig = btn.textContent;
-    btn.textContent='Sending...';
-    btn.disabled=true;
+    const id=form.id.replace('f-','');
+    const btn=form.querySelector('.btn');
+    btn.textContent='Sending...';btn.disabled=true;
     try{
-      const res = await fetch(form.action,{
-        method:'POST',
-        body:new FormData(form),
-        headers:{Accept:'application/json'}
-      });
-      const data = await res.json();
-      if(data.success){
-        form.style.display='none';
-        document.getElementById('s-'+id).style.display='block';
-      } else {
-        btn.textContent='Try again';
-        btn.disabled=false;
-      }
-    }catch(err){
-      btn.textContent='Try again';
-      btn.disabled=false;
-    }
-  });
+      const res=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}});
+      const data=await res.json();
+      if(data.success){form.style.display='none';document.getElementById('s-'+id).style.display='block'}
+      else{btn.textContent='Try again';btn.disabled=false}
+    }catch(err){btn.textContent='Try again';btn.disabled=false}
+  })
 });
+
+
+
+// WAVEFORM AUDIO PLAYER
+(function(){
+  const waveData = [0.3703, 0.336, 0.3924, 0.2918, 0.2231, 0.3016, 0.05, 0.1911, 0.3225, 0.1543, 0.0745, 0.1543, 0.5532, 0.7091, 0.6698, 0.6416, 0.4452, 0.4624, 0.336, 0.3078, 0.3605, 0.6747, 0.5213, 0.6085, 0.3765, 0.4035, 0.4808, 0.455, 0.7116, 0.5802, 0.6612, 0.6207, 0.7152, 0.5078, 0.6391, 0.8036, 0.4121, 0.3274, 0.4391, 0.2145, 0.3139, 0.3311, 0.3961, 0.4489, 0.525, 0.3311, 0.741, 0.6588, 0.4047, 0.5213, 0.606, 0.5348, 0.66, 0.7999, 0.6637, 0.6367, 0.5986, 0.5766, 0.6674, 0.6772, 0.784, 0.579, 0.5041, 0.7508, 0.5802, 0.714, 0.7472, 0.6588, 0.6833, 0.4096, 0.3937, 0.4133, 0.3581, 0.5287, 0.3703, 0.4096, 0.4464, 0.4759, 0.4661, 0.4145, 0.4796, 0.3078, 0.4121, 0.7238, 0.7717, 1.0, 0.6465, 0.6637, 0.498, 0.4882, 0.4784, 0.4661, 0.8024, 0.5864, 0.7717, 0.7422, 0.7778, 0.1924, 0.2378, 0.2476, 0.3298, 0.2059, 0.2672, 0.2267, 0.3348, 0.3605, 0.444, 0.5348, 0.6244, 0.5741, 0.6256, 0.8036, 0.6404, 0.4968, 0.4329, 0.5925, 0.4599, 0.7263, 0.7828, 0.509, 0.6134, 0.7103, 0.2636, 0.3642, 0.4096, 0.4943, 0.3372, 0.4464, 0.4722, 0.374, 0.3348, 0.3274, 0.3519, 0.3802, 0.1826, 0.1543, 0.2267, 0.1629, 0.2439, 0.2697, 0.3274, 0.1187, 0.2353, 0.2169, 0.3519, 0.1556, 0.0795, 0.1556, 0.1617, 0.1789, 0.1445, 0.2415, 0.7913, 0.7484, 0.6072, 0.6232, 0.6134, 0.4857, 0.5667, 0.5569, 0.5974, 0.66, 0.3826, 0.4072, 0.1961, 0.2366, 0.2501, 0.444, 0.3753, 0.3065, 0.4477, 0.3213, 0.3839, 0.2783, 0.2525, 0.4477, 0.3875, 0.3703, 0.482, 0.5508, 0.428, 0.2243, 0.131, 0.4317, 0.2574, 0.2366, 0.4747, 0.7128, 0.7545, 0.6932, 0.9669, 0.2918, 0.2587, 0.282, 0.4158, 0.5189, 0.3225, 0.4329, 0.3532, 0.3556];
+  const aEl = document.getElementById('aEl');
+  const aPlayBtn = document.getElementById('aPlayBtn');
+  const aIconPlay = document.getElementById('aIconPlay');
+  const aIconPause = document.getElementById('aIconPause');
+  const aTimeCur = document.getElementById('aTimeCur');
+  const aDur = document.getElementById('aDur');
+  const waveform = document.getElementById('waveform');
+
+  // Build canvas waveform
+  function buildWave() {
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%';
+    waveform.appendChild(canvas);
+
+    function draw(progress) {
+      const W = canvas.offsetWidth, H = canvas.offsetHeight;
+      if(!W || !H) return;
+      canvas.width = W * devicePixelRatio;
+      canvas.height = H * devicePixelRatio;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+      const n = waveData.length;
+      const barW = (W - (n-1)*1.5) / n;
+      const played = Math.floor(progress * n);
+      for(let i=0;i<n;i++){
+        const h = Math.max(2, waveData[i] * H * 0.88);
+        const y = (H - h) / 2;
+        const x = i * (barW + 1.5);
+        if(i < played){
+          ctx.fillStyle = 'rgba(200,184,154,0.82)';
+        } else {
+          ctx.fillStyle = 'rgba(240,236,228,0.14)';
+        }
+        const bw = Math.max(1.5, barW);
+        const r2 = Math.min(1, bw/2, h/2);
+        ctx.beginPath();
+        ctx.moveTo(x+r2, y);
+        ctx.lineTo(x+bw-r2, y);
+        ctx.arcTo(x+bw, y, x+bw, y+r2, r2);
+        ctx.lineTo(x+bw, y+h-r2);
+        ctx.arcTo(x+bw, y+h, x+bw-r2, y+h, r2);
+        ctx.lineTo(x+r2, y+h);
+        ctx.arcTo(x, y+h, x, y+h-r2, r2);
+        ctx.lineTo(x, y+r2);
+        ctx.arcTo(x, y, x+r2, y, r2);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+
+    waveform.addEventListener('click', e => {
+      if(!aEl.duration) return;
+      const r = waveform.getBoundingClientRect();
+      const pct = (e.clientX - r.left) / r.width;
+      aEl.currentTime = pct * aEl.duration;
+      draw(pct);
+    });
+
+    aEl.addEventListener('timeupdate', () => {
+      if(aEl.duration) draw(aEl.currentTime / aEl.duration);
+      aTimeCur.textContent = fmt(aEl.currentTime);
+    });
+
+    window.addEventListener('resize', () => draw(aEl.duration ? aEl.currentTime/aEl.duration : 0));
+    setTimeout(() => draw(0), 100);
+    return { draw };
+  }
+
+  const wave = buildWave();
+
+  function fmt(s){
+    const m=Math.floor(s/60);
+    return m+':'+(Math.floor(s%60)+'').padStart(2,'0');
+  }
+
+  aEl.addEventListener('loadedmetadata',()=>{ aDur.textContent=fmt(aEl.duration); });
+  aEl.addEventListener('ended',()=>{
+    aIconPlay.style.display='';aIconPause.style.display='none';
+    if(wave) wave.draw(0);
+    aTimeCur.textContent='0:00';
+  });
+
+  window.aToggle = function(){
+    if(aEl.paused){
+      aEl.play();
+      aIconPlay.style.display='none';aIconPause.style.display='';
+    } else {
+      aEl.pause();
+      aIconPlay.style.display='';aIconPause.style.display='none';
+    }
+  };
+})();
+
 </script>
 </body>
 </html>
