@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARKKA</title>
+<meta name="description" content="Secure, reliable AI is within reach.">
+<meta property="og:title" content="ARKKA">
+<meta property="og:description" content="Secure, reliable AI is within reach.">
+<meta property="og:url" content="https://arkka.org">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070707;--fg:#f0ece4;
+  --muted:rgba(240,236,228,0.30);--mid:rgba(240,236,228,0.55);
+  --accent:#c8b89a;--border:rgba(240,236,228,0.09);
+  --ibg:rgba(240,236,228,0.03);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+html,body{min-height:100%;background:var(--bg);color:var(--fg);font-family:var(--serif);-webkit-font-smoothing:antialiased}
+
+/* GRAIN */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.036;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px}
+
+/* SHIELD WATERMARK */
+.watermark{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(62vw,520px);height:min(62vw,520px);
+  pointer-events:none;z-index:0;opacity:0.028}
+
+/* LAYOUT */
+.wrap{max-width:640px;margin:0 auto;padding:clamp(5rem,12vw,9rem) clamp(2rem,6vw,3rem) 0;position:relative;z-index:1}
+
+/* WORDMARK */
+.wordmark{font-family:var(--mono);font-weight:300;font-size:0.68rem;letter-spacing:0.38em;color:var(--muted);margin-bottom:clamp(4rem,10vw,7rem);opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.05s forwards}
+
+/* HEADLINE */
+h1{font-size:clamp(2.6rem,5.5vw,3.8rem);font-weight:300;line-height:1.07;letter-spacing:-0.018em;color:var(--fg);margin-bottom:3rem;opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.18s forwards}
+
+/* BODY */
+.body{font-size:clamp(1.15rem,2vw,1.32rem);font-weight:300;line-height:1.78;color:var(--mid);opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.3s forwards}
+.body p{margin-bottom:1.6rem}
+.body p:last-child{margin-bottom:0}
+.body strong{font-weight:400;color:var(--fg)}
+.body em{font-style:italic;color:var(--accent)}
+
+/* DIVIDER */
+.rule{width:38px;height:1px;background:rgba(240,236,228,0.14);margin:3.5rem 0;opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.48s forwards}
+
+/* PROOF */
+.proof{opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.56s forwards}
+.proof-date{font-family:var(--mono);font-size:0.62rem;font-weight:300;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:1.3rem}
+.proof-headline{font-size:clamp(1.5rem,2.8vw,1.9rem);font-weight:300;line-height:1.38;color:var(--fg);margin-bottom:0.9rem}
+.proof-headline strong{font-weight:600}
+.proof-sub{font-size:clamp(1rem,1.7vw,1.14rem);font-weight:300;line-height:1.66;color:var(--mid);margin-bottom:2.2rem}
+.proof-sub em{font-style:normal;color:var(--fg)}
+.data{display:flex;flex-direction:column;margin-bottom:3rem}
+.dr{display:grid;grid-template-columns:210px 1fr;gap:1rem;align-items:baseline;
+  border-bottom:1px solid rgba(240,236,228,0.06);padding:0.8rem 0}
+.dr:first-child{border-top:1px solid rgba(240,236,228,0.06)}
+.dl{font-family:var(--mono);font-size:0.57rem;font-weight:300;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase}
+.dv{font-family:var(--mono);font-size:0.75rem;font-weight:400;color:var(--mid);letter-spacing:0.04em;text-align:right}
+.dv.hi{color:var(--fg)}
+.dv.ac{color:var(--accent);font-size:0.62rem;letter-spacing:0.07em}
+
+/* JOURNEY + CLOSE */
+.journey{font-size:clamp(1.5rem,2.8vw,1.9rem);font-weight:300;font-style:italic;color:var(--accent);margin-bottom:2.4rem;line-height:1.3;opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.74s forwards}
+.close{font-size:clamp(1.15rem,2vw,1.32rem);font-weight:400;line-height:1.52;color:var(--fg);margin-bottom:3rem;opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.86s forwards}
+
+/* NAV */
+.nav{display:flex;gap:2.4rem;opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.96s forwards}
+.nav a{font-family:var(--mono);font-size:0.66rem;font-weight:300;letter-spacing:0.26em;text-transform:uppercase;color:var(--mid);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px;transition:color 0.25s,border-color 0.25s;cursor:pointer}
+.nav a:hover{color:var(--fg);border-color:rgba(240,236,228,0.28)}
+
+/* FOOTER */
+footer{max-width:640px;margin:0 auto;padding:2.8rem clamp(2rem,6vw,3rem) 3rem;
+  border-top:1px solid rgba(240,236,228,0.07);
+  position:relative;z-index:1;opacity:0;animation:fade 1s ease 1.2s forwards}
+.ft-team{display:flex;gap:4rem;margin-bottom:1.8rem;flex-wrap:wrap}
+.ft-person{}
+.ft-name{font-family:var(--mono);font-size:0.64rem;font-weight:400;letter-spacing:0.10em;color:rgba(240,236,228,0.50);display:block;margin-bottom:0.26rem;transition:color 0.22s}
+.ft-name.clickable{cursor:pointer;border-bottom:1px solid transparent;transition:color 0.22s,border-color 0.22s}
+.ft-name.clickable:hover{color:rgba(240,236,228,0.82);border-color:rgba(240,236,228,0.22)}
+.ft-role{font-family:var(--mono);font-size:0.56rem;font-weight:300;letter-spacing:0.18em;color:rgba(240,236,228,0.24);text-transform:uppercase;display:block}
+.ft-verify{font-family:var(--serif);font-style:italic;font-size:0.8rem;color:rgba(240,236,228,0.14);letter-spacing:0.06em;margin-bottom:1.6rem}
+.ft-corp{font-family:var(--mono);font-size:0.52rem;font-weight:300;letter-spacing:0.14em;color:rgba(240,236,228,0.18);margin-bottom:1rem}
+.ft-copy{font-family:var(--mono);font-size:0.54rem;font-weight:300;letter-spacing:0.16em;color:rgba(240,236,228,0.20)}
+
+/* ===== MODAL BASE ===== */
+.overlay{position:fixed;inset:0;background:rgba(3,3,3,0.92);z-index:200;
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.32s ease;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:#0b0a08;border:1px solid rgba(240,236,228,0.09);
+  border-bottom:none;width:100%;max-width:640px;
+  padding:2.6rem clamp(2rem,6vw,3rem) 3rem;
+  transform:translateY(30px);
+  transition:transform 0.42s cubic-bezier(0.16,1,0.3,1);
+  max-height:88vh;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:rgba(240,236,228,0.08) transparent}
+.overlay.open .modal{transform:translateY(0)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+.modal-title{font-family:var(--mono);font-size:0.62rem;font-weight:300;letter-spacing:0.30em;color:var(--muted);text-transform:uppercase}
+.modal-x{font-family:var(--mono);font-size:0.60rem;font-weight:300;color:var(--muted);background:none;border:none;cursor:pointer;letter-spacing:0.08em;transition:color 0.2s;padding:0}
+.modal-x:hover{color:var(--fg)}
+
+/* ===== FORM ELEMENTS ===== */
+.fg{margin-bottom:1.5rem}
+label.lbl{display:block;font-family:var(--mono);font-size:0.55rem;font-weight:300;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;margin-bottom:0.55rem}
+input[type=text],input[type=email],input[type=url],textarea{
+  width:100%;background:var(--ibg);
+  border:1px solid rgba(240,236,228,0.09);
+  color:var(--fg);font-family:var(--serif);font-size:1.05rem;font-weight:300;
+  padding:0.72rem 0.9rem;outline:none;border-radius:0;
+  -webkit-appearance:none;appearance:none;transition:border-color 0.22s}
+input::placeholder,textarea::placeholder{color:rgba(240,236,228,0.20)}
+input:focus,textarea:focus{border-color:rgba(240,236,228,0.30)}
+textarea{resize:vertical;min-height:110px;line-height:1.62}
+.opts{display:flex;flex-direction:column;gap:0.45rem;padding:0.3rem 0}
+.opt{display:flex;align-items:center;gap:0.7rem;cursor:pointer}
+.opt input[type=radio]{width:13px;height:13px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.opt span{font-family:var(--serif);font-size:1rem;font-weight:300;color:var(--mid)}
+.file-pick{display:flex;align-items:center;gap:0.9rem;
+  border:1px solid rgba(240,236,228,0.09);padding:0.72rem 0.9rem;
+  cursor:pointer;transition:border-color 0.22s}
+.file-pick:hover{border-color:rgba(240,236,228,0.24)}
+.file-pick input{display:none}
+.file-tag{font-family:var(--mono);font-size:0.54rem;letter-spacing:0.14em;color:var(--accent);text-transform:uppercase;white-space:nowrap}
+.file-nm{font-family:var(--serif);font-size:0.98rem;font-weight:300;color:rgba(240,236,228,0.28);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn{font-family:var(--mono);font-size:0.60rem;font-weight:400;letter-spacing:0.28em;text-transform:uppercase;color:var(--bg);background:var(--fg);border:none;padding:1rem;cursor:pointer;width:100%;margin-top:0.6rem;transition:opacity 0.2s}
+.btn:hover{opacity:0.86}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+.fnote{font-family:var(--mono);font-size:0.52rem;font-weight:300;letter-spacing:0.10em;color:rgba(240,236,228,0.24);margin-top:0.9rem;line-height:1.72}
+.success{display:none;padding:2.8rem 0;text-align:center}
+.success p{font-size:1.2rem;font-weight:300;color:var(--mid);line-height:1.68}
+.success strong{font-weight:400;color:var(--fg)}
+
+/* ===== DOSSIER MODAL ===== */
+.dossier{position:relative}
+.dossier-corners{position:absolute;inset:0;pointer-events:none}
+.dossier-name{font-family:var(--serif);font-size:clamp(1.4rem,2.6vw,1.8rem);font-weight:300;color:var(--fg);margin-bottom:0.4rem}
+.dossier-title{font-family:var(--mono);font-size:0.60rem;font-weight:300;letter-spacing:0.22em;color:var(--accent);text-transform:uppercase;margin-bottom:2.4rem}
+.dossier-grid{display:flex;flex-direction:column;gap:1.6rem}
+.d-block{}
+.d-tag{font-family:var(--mono);font-size:0.52rem;font-weight:300;letter-spacing:0.22em;color:rgba(240,236,228,0.28);text-transform:uppercase;margin-bottom:0.5rem;display:block}
+.d-content{font-family:var(--mono);font-size:0.80rem;font-weight:300;color:rgba(240,236,228,0.68);line-height:1.76;letter-spacing:0.02em}
+.d-content span{color:var(--fg)}
+.d-content em{font-style:italic;color:var(--accent)}
+.dossier-footer{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid rgba(240,236,228,0.07)}
+.dossier-stamp{font-family:var(--mono);font-size:0.50rem;font-weight:300;letter-spacing:0.18em;color:rgba(240,236,228,0.20);text-transform:uppercase;line-height:1.8}
+
+/* ANIMATIONS */
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* MOBILE */
+@media(max-width:540px){
+  .dr{grid-template-columns:1fr;gap:0.2rem}
+  .dv{text-align:left}
+  .data{gap:0}
+  .ft-team{gap:2rem}
+  .ft-verify{font-size:0.72rem}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- SHIELD WATERMARK -->
+<svg class="watermark" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- outer hexagon -->
+  <polygon points="200,18 362,109 362,291 200,382 38,291 38,109" stroke="#f0ece4" stroke-width="0.8" fill="none"/>
+  <!-- inner hexagon rotated -->
+  <polygon points="200,48 335,124 335,276 200,352 65,276 65,124" stroke="#f0ece4" stroke-width="0.5" fill="none" opacity="0.6"/>
+  <!-- circle -->
+  <circle cx="200" cy="200" r="110" stroke="#f0ece4" stroke-width="0.6" fill="none" opacity="0.5"/>
+  <!-- inner circle -->
+  <circle cx="200" cy="200" r="68" stroke="#f0ece4" stroke-width="0.5" fill="none" opacity="0.4"/>
+  <!-- triangle up -->
+  <polygon points="200,92 293,247 107,247" stroke="#f0ece4" stroke-width="0.6" fill="none" opacity="0.45"/>
+  <!-- triangle down -->
+  <polygon points="200,308 107,153 293,153" stroke="#f0ece4" stroke-width="0.5" fill="none" opacity="0.35"/>
+  <!-- radial lines -->
+  <line x1="200" y1="18" x2="200" y2="48" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
+  <line x1="362" y1="109" x2="335" y2="124" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
+  <line x1="362" y1="291" x2="335" y2="276" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
+  <line x1="200" y1="382" x2="200" y2="352" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
+  <line x1="38" y1="291" x2="65" y2="276" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
+  <line x1="38" y1="109" x2="65" y2="124" stroke="#f0ece4" stroke-width="0.5" opacity="0.4"/>
+  <!-- center dot -->
+  <circle cx="200" cy="200" r="3" fill="#f0ece4" opacity="0.5"/>
+  <!-- cross lines -->
+  <line x1="200" y1="130" x2="200" y2="270" stroke="#f0ece4" stroke-width="0.4" opacity="0.25"/>
+  <line x1="130" y1="200" x2="270" y2="200" stroke="#f0ece4" stroke-width="0.4" opacity="0.25"/>
+  <!-- tick marks on circle -->
+  <line x1="200" y1="89" x2="200" y2="96" stroke="#f0ece4" stroke-width="0.7" opacity="0.5"/>
+  <line x1="200" y1="304" x2="200" y2="311" stroke="#f0ece4" stroke-width="0.7" opacity="0.5"/>
+  <line x1="89" y1="200" x2="96" y2="200" stroke="#f0ece4" stroke-width="0.7" opacity="0.5"/>
+  <line x1="304" y1="200" x2="311" y2="200" stroke="#f0ece4" stroke-width="0.7" opacity="0.5"/>
+</svg>
+
+<!-- ===== FORM MODALS ===== -->
+
+<!-- CONTACT -->
+<div class="overlay" id="ov-contact">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title">Contact</span>
+      <button class="modal-x" onclick="closeM('ov-contact')">Close ✕</button>
+    </div>
+    <form id="f-contact" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+      <input type="hidden" name="subject" value="ARKKA — Contact">
+      <input type="hidden" name="from_name" value="ARKKA Website">
+      <input type="hidden" name="redirect" value="false">
+      <input type="checkbox" name="botcheck" style="display:none">
+      <div class="fg"><label class="lbl" for="cn">Name</label><input type="text" id="cn" name="name" required placeholder="Your name"></div>
+      <div class="fg"><label class="lbl" for="ce">Email</label><input type="email" id="ce" name="email" required placeholder="your@email.com"></div>
+      <div class="fg"><label class="lbl" for="cm">Message</label><textarea id="cm" name="message" required placeholder="How can we help?"></textarea></div>
+      <button type="submit" class="btn">Send message</button>
+      <p class="fnote">Your message is delivered securely. We respond within 48 hours.</p>
+    </form>
+    <div class="success" id="s-contact"><p><strong>Message received.</strong><br>We will be in touch.</p></div>
+  </div>
+</div>
+
+<!-- INVESTORS -->
+<div class="overlay" id="ov-investors">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title">Investors</span>
+      <button class="modal-x" onclick="closeM('ov-investors')">Close ✕</button>
+    </div>
+    <form id="f-investors" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+      <input type="hidden" name="subject" value="ARKKA — Investor Inquiry">
+      <input type="hidden" name="from_name" value="ARKKA Website">
+      <input type="hidden" name="redirect" value="false">
+      <input type="checkbox" name="botcheck" style="display:none">
+      <div class="fg"><label class="lbl" for="in_">Name</label><input type="text" id="in_" name="name" required placeholder="Your name"></div>
+      <div class="fg"><label class="lbl" for="ie">Email</label><input type="email" id="ie" name="email" required placeholder="your@fund.com"></div>
+      <div class="fg"><label class="lbl" for="io">Organization</label><input type="text" id="io" name="organization" placeholder="Fund or firm name"></div>
+      <div class="fg">
+        <label class="lbl">Investment stage</label>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="stage" value="Pre-Seed / Seed"><span>Pre-Seed / Seed</span></label>
+          <label class="opt"><input type="radio" name="stage" value="Series A"><span>Series A</span></label>
+          <label class="opt"><input type="radio" name="stage" value="Strategic / Corporate"><span>Strategic / Corporate</span></label>
+          <label class="opt"><input type="radio" name="stage" value="Other"><span>Other</span></label>
+        </div>
+      </div>
+      <div class="fg"><label class="lbl" for="im">Why ARKKA</label><textarea id="im" name="message" style="min-height:90px" placeholder="Tell us briefly why you're reaching out."></textarea></div>
+      <button type="submit" class="btn">Submit inquiry</button>
+      <p class="fnote">All submissions are reviewed under strict confidentiality. We respond only to aligned inquiries.</p>
+    </form>
+    <div class="success" id="s-investors"><p><strong>Inquiry received.</strong><br>We review every submission carefully.</p></div>
+  </div>
+</div>
+
+<!-- APPLY -->
+<div class="overlay" id="ov-apply">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title">Apply</span>
+      <button class="modal-x" onclick="closeM('ov-apply')">Close ✕</button>
+    </div>
+    <form id="f-apply" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+      <input type="hidden" name="subject" value="ARKKA — Application">
+      <input type="hidden" name="from_name" value="ARKKA Website">
+      <input type="hidden" name="redirect" value="false">
+      <input type="checkbox" name="botcheck" style="display:none">
+      <div class="fg"><label class="lbl" for="an">Name</label><input type="text" id="an" name="name" required placeholder="Your name"></div>
+      <div class="fg"><label class="lbl" for="ae">Email</label><input type="email" id="ae" name="email" required placeholder="your@email.com"></div>
+      <div class="fg">
+        <label class="lbl">Area of expertise</label>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="area" value="AI Research"><span>AI Research</span></label>
+          <label class="opt"><input type="radio" name="area" value="Systems Engineering"><span>Systems Engineering</span></label>
+          <label class="opt"><input type="radio" name="area" value="Security"><span>Security</span></label>
+          <label class="opt"><input type="radio" name="area" value="Other"><span>Other</span></label>
+        </div>
+      </div>
+      <div class="fg"><label class="lbl" for="au">LinkedIn or Portfolio</label><input type="url" id="au" name="portfolio" placeholder="https://"></div>
+      <div class="fg"><label class="lbl" for="am">Why ARKKA</label><textarea id="am" name="message" required style="min-height:90px" placeholder="What draws you to this work?"></textarea></div>
+      <div class="fg">
+        <label class="lbl">CV / Résumé</label>
+        <label class="file-pick">
+          <input type="file" name="cv" accept=".pdf,.doc,.docx" onchange="setFile(this)">
+          <span class="file-tag">Attach</span>
+          <span class="file-nm" id="fname">PDF or DOC · max 10 MB</span>
+        </label>
+      </div>
+      <button type="submit" class="btn">Submit application</button>
+      <p class="fnote">Every application is read. We reach out only when there is a genuine match.</p>
+    </form>
+    <div class="success" id="s-apply"><p><strong>Application received.</strong><br>We read every submission carefully.</p></div>
+  </div>
+</div>
+
+<!-- DIEGO DOSSIER -->
+<div class="overlay" id="ov-dossier">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title">Founder Profile</span>
+      <button class="modal-x" onclick="closeM('ov-dossier')">Close ✕</button>
+    </div>
+    <div class="dossier">
+      <!-- Corner brackets -->
+      <svg class="dossier-corners" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);pointer-events:none;opacity:0.35">
+        <polyline points="0,12 0,0 12,0" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
+        <polyline points="88,0 100,0 100,12" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
+        <polyline points="0,88 0,100 12,100" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
+        <polyline points="88,100 100,100 100,88" stroke="#c8b89a" stroke-width="0.8" fill="none" vector-effect="non-scaling-stroke"/>
+      </svg>
+
+      <div class="dossier-name">Diego Bissolotti Gasques</div>
+      <div class="dossier-title">Founder &amp; CEO — ARKKA</div>
+
+      <div class="dossier-grid">
+        <div class="d-block">
+          <span class="d-tag">[Experience]</span>
+          <div class="d-content">
+            <span>33+ years of programming.</span> Elite software engineer<br>
+            and systems architect. Technology entrepreneur, 20+ years.
+          </div>
+        </div>
+        <div class="d-block">
+          <span class="d-tag">[Academic Formation]</span>
+          <div class="d-content">
+            Business Administration · Post-graduate in IT<br>
+            Linear Algebra · MIT Advanced Mathematics
+          </div>
+        </div>
+        <div class="d-block">
+          <span class="d-tag">[Certifications]</span>
+          <div class="d-content">
+            Google Cloud Professional Architect · Oracle · UCI<br>
+            Intel Masters AI — <span>Score: 98.5/100, Top 12 Global</span>
+          </div>
+        </div>
+        <div class="d-block">
+          <span class="d-tag">[Media &amp; Finance]</span>
+          <div class="d-content">
+            12 years at Rede Globo — Host &amp; Executive Producer.<br>
+            Senior analyst, financial sector — New York.
+          </div>
+        </div>
+        <div class="d-block">
+          <span class="d-tag">[Reach]</span>
+          <div class="d-content">
+            <span>219K followers</span> — organic distribution network.<br>
+            Zero CAC acquisition model. Zero paid media.
+          </div>
+        </div>
+        <div class="d-block">
+          <span class="d-tag">[Methodology]</span>
+          <div class="d-content">
+            <em>"Vencer primeiro, depois lutar."</em><br>
+            Infrastructure self-builds based on demand.<br>
+            No advancement without measurable empirical evidence.
+          </div>
+        </div>
+      </div>
+
+      <div class="dossier-footer">
+        <div class="dossier-stamp">
+          [IDENTITY VERIFIED] · [CREDENTIALS CONFIRMED] · [AUTH_LEVEL: FOUNDER]<br>
+          ARKKA · Delaware C-Corp · Est. 2024 · [SYSTEM_INTEGRITY: SECURE]
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE ===== -->
+<div class="wrap">
+  <div class="wordmark">ARKKA</div>
+
+  <h1>Secure, reliable AI<br>is within reach.</h1>
+
+  <div class="body">
+    <p>Hallucination is not a minor inconvenience. People, companies, governments, and armies are making critical decisions based on AI outputs that are simply wrong. This is the defining trust problem of our time — and it demands a real solution.</p>
+    <p><strong>ARKKA was built to solve it.</strong></p>
+    <p>Our name carries our purpose. <strong>ARK</strong> — protection. A vessel built to endure. <strong>KA</strong> — the vital force. The essence that cannot be lost or corrupted. Security and reliability are not features we added to ARKKA. They are what ARKKA <em>is.</em></p>
+    <p>AI is in our DNA. It is in our name. It is the foundation of everything we build.</p>
+    <p>We have started the world's first straight-shot secure AI lab, with one goal and one product: AI that can be unconditionally trusted. ARKKA is our mission, our name, and our entire product roadmap — because it is our sole focus. Our team, investors, and business model are all aligned to achieve it.</p>
+    <p>We approach security and accuracy in tandem — not as tradeoffs, but as a single technical problem to be solved through rigorous engineering and scientific breakthrough.</p>
+    <p>We are assembling a focused team of engineers and researchers who understand that solving AI trust is the most important technical work of our generation.</p>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="proof">
+    <div class="proof-date">April 16, 2026</div>
+    <p class="proof-headline">We proved that AI hallucination can be<br>reduced by <strong>96.8%.</strong></p>
+    <p class="proof-sub">From <em>67.88%</em> to <em>2.17%</em> — with a statistical significance of <em>p&nbsp;=&nbsp;3.04&nbsp;×&nbsp;10⁻¹⁸</em>.<br>This is not a claim. This is a result. Documented, hashed, and internally audited.</p>
+    <div class="data">
+      <div class="dr"><span class="dl">Error rate before</span><span class="dv">67.88%</span></div>
+      <div class="dr"><span class="dl">Error rate after</span><span class="dv hi">2.17%</span></div>
+      <div class="dr"><span class="dl">Reduction</span><span class="dv hi">96.8%</span></div>
+      <div class="dr"><span class="dl">Statistical significance</span><span class="dv">p = 3.04 × 10⁻¹⁸</span></div>
+      <div class="dr"><span class="dl">Document SHA-256</span><span class="dv ac">6a3f7207 &thinsp;·&thinsp; 61 pages &thinsp;·&thinsp; audited</span></div>
+    </div>
+  </div>
+
+  <div class="journey">We are just beginning.</div>
+
+  <div class="close">Now is the time.<br>Join us.</div>
+
+  <nav class="nav">
+    <a onclick="openM('ov-apply')">Apply</a>
+    <a onclick="openM('ov-investors')">Investors</a>
+    <a onclick="openM('ov-contact')">Contact</a>
+  </nav>
+</div>
+
+<footer>
+  <div class="ft-team">
+    <div class="ft-person">
+      <span class="ft-name clickable" onclick="openM('ov-dossier')" title="View profile">Diego Bissolotti Gasques</span>
+      <span class="ft-role">Founder &amp; CEO</span>
+    </div>
+    <div class="ft-person">
+      <span class="ft-name">Thiago Viana</span>
+      <span class="ft-role">Investidor</span>
+    </div>
+  </div>
+  <div class="ft-verify">Verify. Don't Trust.</div>
+  <div class="ft-corp">Delaware C-Corp &nbsp;·&nbsp; Operations: Rio de Janeiro &nbsp;·&nbsp; Global</div>
+  <div class="ft-copy">ARKKA &copy; 2026</div>
+</footer>
+
+<script>
+function openM(id){
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeM(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow='';
+}
+document.querySelectorAll('.overlay').forEach(o=>{
+  o.addEventListener('click',e=>{ if(e.target===o) closeM(o.id); });
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')
+    document.querySelectorAll('.overlay.open').forEach(o=>closeM(o.id));
+});
+function setFile(input){
+  document.getElementById('fname').textContent =
+    input.files[0] ? input.files[0].name : 'PDF or DOC · max 10 MB';
+}
+document.querySelectorAll('form').forEach(form=>{
+  form.addEventListener('submit', async e=>{
+    e.preventDefault();
+    const id = form.id.replace('f-','');
+    const btn = form.querySelector('.btn');
+    const orig = btn.textContent;
+    btn.textContent='Sending...';
+    btn.disabled=true;
+    try{
+      const res = await fetch(form.action,{
+        method:'POST',
+        body:new FormData(form),
+        headers:{Accept:'application/json'}
+      });
+      const data = await res.json();
+      if(data.success){
+        form.style.display='none';
+        document.getElementById('s-'+id).style.display='block';
+      } else {
+        btn.textContent='Try again';
+        btn.disabled=false;
+      }
+    }catch(err){
+      btn.textContent='Try again';
+      btn.disabled=false;
+    }
+  });
+});
+</script>
+</body>
+</html>
