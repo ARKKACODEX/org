@@ -84,107 +84,10 @@ h1{font-size:clamp(2.7rem,5.8vw,4rem);font-weight:300;line-height:1.06;
 .body strong{font-weight:400;color:var(--fg)}
 .body em{font-style:italic;color:var(--accent)}
 
-/* CODEX STATUS — clean, readable */
-.codex-status{margin-top:3rem;padding:1.6rem 1.6rem 1.6rem 1.4rem;
-  border-left:2px solid rgba(200,184,154,0.30);
-  background:rgba(200,184,154,0.022);
-  opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.5s forwards}
-.codex-tag{font-family:var(--mono);font-size:0.54rem;font-weight:300;
-  letter-spacing:0.24em;color:var(--accent);text-transform:uppercase;
-  margin-bottom:0.9rem;display:flex;align-items:center;gap:0.5rem}
-.codex-tag::before{content:'';width:5px;height:5px;border-radius:50%;
-  background:var(--accent);opacity:0.55;animation:blink 2s ease infinite}
-.codex-text{font-family:var(--serif);font-size:clamp(0.95rem,1.6vw,1.08rem);
-  font-weight:300;color:var(--mid);line-height:1.76}
-.codex-text p{margin-bottom:0.9rem}
-.codex-text p:last-child{margin-bottom:0}
-.codex-text strong{font-weight:400;color:var(--fg)}
-
-/* DIVIDER */
-.rule{display:flex;align-items:center;gap:1rem;margin:3.8rem 0;
-  opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.66s forwards}
-.rule::before{content:'';display:block;width:36px;height:1px;
-  background:rgba(240,236,228,0.14)}
-.rule::after{content:'VALIDATION RECORD';font-family:var(--mono);
-  font-size:0.42rem;font-weight:300;letter-spacing:0.30em;
-  color:rgba(240,236,228,0.16);text-transform:uppercase}
-
-/* PROOF */
-.proof{opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.74s forwards}
-.proof-date{font-family:var(--mono);font-size:0.60rem;font-weight:300;
-  letter-spacing:0.30em;color:var(--accent);text-transform:uppercase;
-  margin-bottom:1.4rem;display:flex;align-items:center;gap:0.55rem}
-.proof-date::before{content:'';width:6px;height:6px;
-  border:1px solid var(--accent);border-radius:50%;opacity:0.7;flex-shrink:0}
-.proof-headline{font-size:clamp(1.55rem,2.9vw,2rem);font-weight:300;
-  line-height:1.34;color:var(--fg);margin-bottom:1rem}
-.proof-headline strong{font-weight:600;color:#fff}
-.proof-sub{font-size:clamp(0.98rem,1.6vw,1.1rem);font-weight:300;
-  line-height:1.7;color:var(--mid);margin-bottom:2.4rem}
-.proof-sub em{font-style:normal;color:var(--fg)}
-
-/* STAT CALLOUT */
-.stat-callout{display:flex;gap:3.5rem;margin-bottom:2.4rem;
-  padding:1.6rem 0;
-  border-top:1px solid rgba(240,236,228,0.06);
-  border-bottom:1px solid rgba(240,236,228,0.06);flex-wrap:wrap}
-.stat-item{display:flex;flex-direction:column;gap:0.35rem}
-.stat-num{font-family:var(--mono);font-size:1.7rem;font-weight:300;
-  color:#fff;letter-spacing:-0.02em;line-height:1}
-.stat-label{font-family:var(--mono);font-size:0.48rem;font-weight:300;
-  letter-spacing:0.18em;color:var(--muted);text-transform:uppercase}
-
-/* DATA TABLE */
-.data{display:flex;flex-direction:column;margin-bottom:0}
-.dr{display:grid;grid-template-columns:200px 1fr;gap:1rem;align-items:baseline;
-  border-bottom:1px solid rgba(240,236,228,0.05);padding:0.86rem 0}
-.dr:first-child{border-top:1px solid rgba(240,236,228,0.05)}
-.dl{font-family:var(--mono);font-size:0.54rem;font-weight:300;
-  letter-spacing:0.18em;color:var(--muted);text-transform:uppercase}
-.dv{font-family:var(--mono);font-size:0.74rem;font-weight:400;
-  color:var(--mid);letter-spacing:0.04em;text-align:right}
-.dv.hi{color:#fff}
-.dv.ac{color:var(--accent);font-size:0.62rem;letter-spacing:0.07em}
-
-/* DISCLAIMER */
-.disclaimer{margin-top:2rem;padding:1.4rem 1.6rem;
-  border:1px solid rgba(240,236,228,0.06);
-  background:rgba(240,236,228,0.012)}
-.disclaimer-tag{font-family:var(--mono);font-size:0.50rem;font-weight:300;
-  letter-spacing:0.24em;color:var(--muted);text-transform:uppercase;
-  margin-bottom:0.75rem}
-.disclaimer-text{font-family:var(--serif);font-size:clamp(0.88rem,1.4vw,0.98rem);
-  font-weight:300;color:rgba(240,236,228,0.38);line-height:1.78}
-.disclaimer-text strong{font-weight:400;color:rgba(240,236,228,0.54)}
-
 /* JOURNEY */
 .journey{font-size:clamp(1.55rem,2.9vw,2rem);font-weight:300;font-style:italic;
   color:var(--accent);margin-top:3.4rem;margin-bottom:2.8rem;line-height:1.28;
   opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.9s forwards}
-
-/* AUDIO PLAYER */
-.audio-section{margin-bottom:3rem;
-  opacity:0;animation:up 1s cubic-bezier(0.16,1,0.3,1) 0.94s forwards}
-.audio-meta{display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:1rem}
-.audio-label-tag{font-family:var(--mono);font-size:0.50rem;font-weight:300;
-  letter-spacing:0.24em;color:var(--muted);text-transform:uppercase;
-  display:flex;align-items:center;gap:0.5rem}
-.audio-label-tag::before{content:'';width:5px;height:5px;
-  border:1px solid var(--accent);border-radius:50%;opacity:0.60}
-.audio-dur{font-family:var(--mono);font-size:0.48rem;
-  letter-spacing:0.12em;color:var(--muted)}
-.audio-waveform{position:relative;height:56px;cursor:pointer;width:100%}
-.audio-waveform canvas{position:absolute;inset:0;width:100%;height:100%}
-.audio-controls{display:flex;align-items:center;gap:1rem;margin-top:0.8rem}
-.audio-play{width:30px;height:30px;border-radius:50%;
-  border:1px solid rgba(240,236,228,0.15);background:transparent;
-  color:var(--fg);cursor:pointer;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;transition:border-color 0.22s,background 0.22s;padding:0}
-.audio-play:hover{border-color:var(--accent);background:rgba(200,184,154,0.07)}
-.audio-play svg{pointer-events:none}
-.audio-time-cur{font-family:var(--mono);font-size:0.50rem;
-  letter-spacing:0.12em;color:var(--muted)}
 
 /* CLOSE + NAV */
 .close{font-size:clamp(1.12rem,1.9vw,1.28rem);font-weight:400;
@@ -485,65 +388,9 @@ textarea{resize:vertical;min-height:110px;line-height:1.65}
     <p>We are assembling a focused team of engineers and researchers who understand that solving AI trust is the most important technical work of our generation.</p>
   </div>
 
-  <div class="codex-status">
-    <div class="codex-tag">CODEX &thinsp;·&thinsp; Audit in Progress</div>
-    <div class="codex-text">
-      <p>The CODEX solution — the proprietary technology behind the results published on April 16, 2026 — is currently undergoing <strong>full external audit</strong>, covering the complete validation methodology, statistical verification framework, and mathematical foundations applied throughout its development.</p>
-      <p>ARKKA operates under a principle of <strong>radical empirical discipline</strong>: no result is published without rigorous internal validation. The published figures were confirmed by multiple independent statistical methods within the same controlled experiment, each arriving at the same conclusion. CODEX is <strong>proprietary security technology</strong> in its early stages — and we are building the mathematical compliance layer the AI era requires.</p>
-    </div>
-  </div>
-
-  <div class="rule"></div>
-
-  <div class="proof">
-    <div class="proof-date">April 16, 2026</div>
-    <p class="proof-headline">We proved that AI hallucination can be<br>reduced by <strong>96.8%.</strong></p>
-    <p class="proof-sub">From <em>67.88%</em> to <em>2.17%</em> — with a statistical significance of <em>p&nbsp;=&nbsp;3.04&nbsp;×&nbsp;10⁻¹⁸</em>.<br>This is not a claim. This is a result. Documented, hashed, and internally audited.</p>
-
-    <div class="stat-callout">
-      <div class="stat-item"><span class="stat-num">96.8%</span><span class="stat-label">Reduction</span></div>
-      <div class="stat-item"><span class="stat-num">2.17%</span><span class="stat-label">Error rate after</span></div>
-      <div class="stat-item"><span class="stat-num" style="font-size:1.1rem;padding-top:0.3rem">10⁻¹⁸</span><span class="stat-label">Significance</span></div>
-    </div>
-
-    <div class="data">
-      <div class="dr"><span class="dl">Error rate before</span><span class="dv">67.88%</span></div>
-      <div class="dr"><span class="dl">Error rate after</span><span class="dv hi">2.17%</span></div>
-      <div class="dr"><span class="dl">Reduction</span><span class="dv hi">96.8%</span></div>
-      <div class="dr"><span class="dl">Statistical significance</span><span class="dv">p = 3.04 × 10⁻¹⁸</span></div>
-      <div class="dr"><span class="dl">Document SHA-256</span><span class="dv ac">6a3f7207 &thinsp;·&thinsp; 61 pages &thinsp;·&thinsp; audited</span></div>
-    </div>
-
-    <div class="disclaimer">
-      <div class="disclaimer-tag">Disclosure &thinsp;·&thinsp; Validation Status</div>
-      <div class="disclaimer-text">
-        The results published above represent the outcome of a controlled internal validation experiment (EXP-001) conducted on April 16, 2026. The statistical significance reported — p = 3.04 × 10⁻¹⁸ — was confirmed by <strong>two independent statistical methods</strong> applied to the same experimental data. These results are valid within the conditions of the experiment as documented in the 61-page validation record (SHA-256: 6a3f7207). ARKKA makes no representation that results obtained in other operational contexts, with other models, or at broader scale will be identical. <strong>External audit of the complete methodology is currently in progress.</strong> The SHA-256 hash published above constitutes cryptographic proof of the existence and integrity of the underlying technical document as of this date.
-      </div>
-    </div>
-  </div>
-
   <div class="journey">We are just beginning.</div>
 
-  <!-- AUDIO PLAYER -->
-  <div class="audio-section">
-    <div class="audio-meta">
-      <span class="audio-label-tag">Deep Dive &thinsp;·&thinsp; CODEX AI</span>
-      <span class="audio-dur" id="aDur">--:--</span>
-    </div>
-    <div class="audio-waveform" id="waveform"></div>
-    <div class="audio-controls">
-      <button class="audio-play" id="aPlayBtn" onclick="aToggle()">
-        <svg id="aIconPlay" viewBox="0 0 10 12" width="10" height="12" fill="currentColor"><polygon points="1,0 10,6 1,12"/></svg>
-        <svg id="aIconPause" viewBox="0 0 10 12" width="10" height="12" fill="currentColor" style="display:none"><rect x="0" y="0" width="3.5" height="12"/><rect x="6.5" y="0" width="3.5" height="12"/></svg>
-      </button>
-      <span class="audio-time-cur" id="aTimeCur">0:00</span>
-    </div>
-    <audio id="aEl" preload="metadata">
-      <source src="audio.mp3" type="audio/mpeg">
-    </audio>
-  </div>
-
-  <div class="close">Now is the time.<br>Join us.</div>
+    <div class="close">Now is the time.<br>Join us.</div>
 
   <nav class="nav">
     <a onclick="openM('ov-apply')">Apply</a>
@@ -593,86 +440,6 @@ document.querySelectorAll('form').forEach(form=>{
   })
 });
 
-// WAVEFORM PLAYER
-(function(){
-  const W=[0.5372,0.774,0.731,0.6886,0.3519,0.3159,0.515,0.6209,0.6619,0.6985,0.543,0.6965,0.3661,0.5953,0.7244,0.7402,0.5605,0.5232,0.3687,0.4988,0.3781,0.7105,0.7891,0.6257,0.3992,0.6648,0.6356,0.5684,0.6272,0.5874,0.5805,0.8595,0.4541,0.7016,0.664,0.6067,0.4158,0.4788,0.4885,0.4983,0.4687,0.6006,0.8754,0.4397,0.6396,0.6407,0.3122,0.3902,0.3277,0.6527,0.6242,0.3241,0.4906,0.5552,0.3552,0.1786,0.06,0.0612,0.27,0.6077,0.6427,0.5717,0.4569,0.4491,0.4347,0.458,0.3946,0.4641,0.561,0.5507,0.7717,0.6535,0.6895,0.7491,0.7629,0.7571,0.6402,0.5483,0.4429,0.5983,0.8833,0.5977,0.364,0.4205,0.4449,0.4742,0.4868,0.4509,0.504,0.5321,0.4622,0.8191,1.0,0.9308,0.6557,0.416,0.5234,0.6244,0.435,0.5112,0.5849,0.5558,0.5127,0.5919,0.2446,0.3071,0.3957,0.4164,0.4719,0.4944,0.3581,0.2979,0.4024,0.5563,0.4573,0.6291,0.5126,0.4647,0.3312,0.3097,0.5705,0.5729,0.5025,0.5514,0.4843,0.4937,0.5312,0.3509,0.435,0.4563,0.5252,0.5723,0.474,0.3439,0.4425,0.4538,0.2584,0.3808,0.3463,0.5958,0.7726,0.6514,0.7088,0.4087,0.327,0.4305,0.4994,0.5992,0.6001,0.566,0.444,0.6538,0.3627,0.4797,0.4123,0.4455,0.3159,0.3829,0.4088,0.46];
-  const aEl=document.getElementById('aEl');
-  const aDur=document.getElementById('aDur');
-  const aTimeCur=document.getElementById('aTimeCur');
-  const waveDiv=document.getElementById('waveform');
-  const iPlay=document.getElementById('aIconPlay');
-  const iPause=document.getElementById('aIconPause');
-  let canvas,ctx,progress=0;
-
-  function fmt(s){const m=Math.floor(s/60);return m+':'+(Math.floor(s%60)+'').padStart(2,'0')}
-
-  function initCanvas(){
-    canvas=document.createElement('canvas');
-    canvas.style.cssText='position:absolute;inset:0;width:100%;height:100%';
-    waveDiv.appendChild(canvas);
-    draw(0);
-  }
-
-  function draw(p){
-    progress=p;
-    const DPR=window.devicePixelRatio||1;
-    const cw=waveDiv.offsetWidth,ch=waveDiv.offsetHeight;
-    if(!cw||!ch)return;
-    canvas.width=cw*DPR;canvas.height=ch*DPR;
-    ctx=canvas.getContext('2d');
-    ctx.scale(DPR,DPR);
-    const n=W.length;
-    const gap=2;
-    const bw=(cw-(n-1)*gap)/n;
-    const played=p*n;
-    for(let i=0;i<n;i++){
-      const h=Math.max(2,W[i]*ch*0.86);
-      const y=(ch-h)/2;
-      const x=i*(bw+gap);
-      ctx.fillStyle=i<played?'rgba(200,184,154,0.85)':'rgba(240,236,228,0.13)';
-      const r=Math.min(1.2,bw/2,h/2);
-      ctx.beginPath();
-      ctx.moveTo(x+r,y);ctx.lineTo(x+bw-r,y);
-      ctx.arcTo(x+bw,y,x+bw,y+r,r);
-      ctx.lineTo(x+bw,y+h-r);
-      ctx.arcTo(x+bw,y+h,x+bw-r,y+h,r);
-      ctx.lineTo(x+r,y+h);
-      ctx.arcTo(x,y+h,x,y+h-r,r);
-      ctx.lineTo(x,y+r);
-      ctx.arcTo(x,y,x+r,y,r);
-      ctx.closePath();ctx.fill();
-    }
-  }
-
-  waveDiv.addEventListener('click',e=>{
-    if(!aEl.duration)return;
-    const r=waveDiv.getBoundingClientRect();
-    const p=(e.clientX-r.left)/r.width;
-    aEl.currentTime=p*aEl.duration;
-    draw(p);
-  });
-
-  aEl.addEventListener('timeupdate',()=>{
-    if(aEl.duration){
-      const p=aEl.currentTime/aEl.duration;
-      draw(p);
-      aTimeCur.textContent=fmt(aEl.currentTime);
-    }
-  });
-  aEl.addEventListener('loadedmetadata',()=>{aDur.textContent=fmt(aEl.duration)});
-  aEl.addEventListener('ended',()=>{
-    iPlay.style.display='';iPause.style.display='none';
-    draw(0);aTimeCur.textContent='0:00';
-  });
-
-  window.addEventListener('resize',()=>draw(progress));
-  setTimeout(initCanvas,120);
-
-  window.aToggle=function(){
-    if(aEl.paused){aEl.play();iPlay.style.display='none';iPause.style.display=''}
-    else{aEl.pause();iPlay.style.display='';iPause.style.display='none'}
-  };
-})();
 </script>
 </body>
 </html>
